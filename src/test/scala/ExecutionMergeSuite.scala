@@ -13,6 +13,7 @@ import com.typesafe.config
 import spray.httpx.SprayJsonSupport._
 import spray.httpx.ResponseTransformation._
 import spray.httpx.SprayJsonSupport._
+import spray.json.DefaultJsonProtocol
 import spray.util._
 import spray.httpx.unmarshalling._
 import spray.httpx.marshalling._
@@ -44,7 +45,7 @@ case class MonarchHop(id: Int, host: String, timeStamp: Int)
 case class MonarchResponse(hops: List[MonarchHop])
 
 
-object ExecutionJsonProtocol extends SnakifiedJsonSupport {
+object ExecutionJsonProtocol extends DefaultJsonProtocol {
   implicit val clusterWeightFormat = jsonFormat2(ClusterWeight)
   implicit val deployFormat = jsonFormat2(Deploy)
   implicit val proxyConfigFormat = jsonFormat3(ProxyConfig)
@@ -166,7 +167,7 @@ class ExecutionMergeSuite extends FunSuite with BeforeAndAfter with CustomAssert
     info("Check if frontend instance is in place")
     val monarch1 = tryExecution(deploymentExecutionUrl, 300, "frontend", 1, "monarch1")
     info("Check if frontend instance is accessible and has necessary number of hops")
-    tryConnection(monarch1)
+    assert(tryConnection(monarch1))
 
 
     assertStatusOk(Await.result(vampPipeline(Put(s"/deployment/${deployment.id}", mergeDeployment)), awaitDuration))
@@ -176,14 +177,14 @@ class ExecutionMergeSuite extends FunSuite with BeforeAndAfter with CustomAssert
     val monarch4 = tryExecution(deploymentExecutionUrl, 300, "frontend", 2, "monarch4")
 
     info("Check if new frontend instance is accessible")
-    tryConnection(monarch4)
+    assert(tryConnection(monarch4))
 
   }
 
   def tryConnection(instance: Instance): Boolean = {
     Await.result(defaultPipeline(Post(s"http://${instance.host}:${instance.ports.head}/work")), awaitDuration).entity.as[MonarchResponse] match {
       case Right(response) if response.hops.length >= 2 => true
-      case _ => false
+      case Left(err) => false
     }
   }
 
