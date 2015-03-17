@@ -1,0 +1,10 @@
+[
+  {"tags" : ["test", "event", "integration"], "value" : { "time" : 300}},
+  {"tags" : ["test", "event", "integration"], "value" : { "time" : 300}},
+  {"tags" : ["test", "event", "integration"], "value" : { "time" : 300}},
+  {"tags" : ["test", "event", "integration"], "value" : { "time" : 300}},
+  {"tags" : ["test", "event", "integration"], "value" : { "time" : 400}},
+  {"tags" : ["test", "event", "integration"], "value" : { "time" : 400}},
+  {"tags" : ["test", "event", "integration"], "value" : { "time" : 400}},
+  {"tags" : ["test", "event", "integration"], "value" : { "time" : 400}}
+]

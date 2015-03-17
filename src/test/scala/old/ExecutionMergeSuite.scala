@@ -1,10 +1,11 @@
+package old
+
 import akka.actor.ActorSystem
 import akka.actor.Status.Success
 import akka.io.IO
 import akka.pattern.ask
 import akka.util.Timeout
 import com.typesafe.config.{ConfigFactory, Config}
-import json.SnakifiedJsonSupport
 import org.scalatest.{BeforeAndAfter, FunSuite, Suite, Stepwise}
 import spray.can.Http
 import spray.http.{StatusCodes, StatusCode, HttpResponse, HttpRequest}

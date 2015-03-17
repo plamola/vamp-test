@@ -1,0 +1,10 @@
+[
+  {"tags" : ["test", "metric", "integration"], "value" : 300},
+  {"tags" : ["test", "metric", "integration"], "value" : 300},
+  {"tags" : ["test", "metric", "integration"], "value" : 300},
+  {"tags" : ["test", "metric", "integration"], "value" : 300},
+  {"tags" : ["test", "metric", "integration"], "value" : 400},
+  {"tags" : ["test", "metric", "integration"], "value" : 400},
+  {"tags" : ["test", "metric", "integration"], "value" : 400},
+  {"tags" : ["test", "metric", "integration"], "value" : 400}
+]

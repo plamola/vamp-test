@@ -1,0 +1,10 @@
+{
+  "tags" : ["test", "blob", "integration"],
+  "value" :
+  {
+    "some" :
+    {
+      "arbitrary" : "value"
+    }
+  }
+}
