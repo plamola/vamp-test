@@ -1,6 +1,6 @@
 package pulse
 
-import io.magnetic.vamp_common.pulse.api.{EventQuery, Event}
+import io.vamp.common.pulse.api.{EventQuery, Event}
 import org.json4s.native.JsonMethods._
 import org.scalatest.tagobjects.Retryable
 import org.scalatest.time.{Millis, Span}

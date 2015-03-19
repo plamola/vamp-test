@@ -1,7 +1,7 @@
 package traits
 
-import io.magnetic.vamp_common.akka.ExecutionContextProvider
-import io.magnetic.vamp_common.pulse.PulseClientProvider
+import io.vamp.common.akka.ExecutionContextProvider
+import io.vamp.common.pulse.PulseClientProvider
 
 import scala.concurrent.ExecutionContext
 import ExecutionContext.Implicits.global

@@ -1,6 +1,6 @@
 package pulse
 
-import io.magnetic.vamp_common.pulse.api.{EventQuery, Event}
+import io.vamp.common.pulse.api.{EventQuery, Event}
 import org.json4s.native.JsonMethods._
 import org.scalatest.tagobjects.Retryable
 import org.scalatest.time.{Millis, Span}
@@ -8,7 +8,7 @@ import org.scalatest.{Outcome, Retries, Matchers, FlatSpec}
 import traits.{PulseJsonFormatsProvider, LocalPulseClientProvider, FileAccess}
 import scala.concurrent.Await
 import scala.concurrent.duration._
-import io.magnetic.vamp_common.json.Serializers
+import io.vamp.common.json.Serializers
 
 class StorageSuite extends FlatSpec with LocalPulseClientProvider with Matchers with FileAccess with PulseJsonFormatsProvider with Retries {
 

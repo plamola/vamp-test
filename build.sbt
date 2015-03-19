@@ -19,7 +19,7 @@ libraryDependencies ++= {
     "com.typesafe.akka"   %%  "akka-actor"    % akkaV,
     "org.scalatest" % "scalatest_2.11" % "2.2.1" % "test",
     "com.typesafe" % "config" % "1.2.1",
-    "io.magnetic.vamp-common" % "vamp-common" % "0.6.0"
+    "io.vamp" % "common" % "0.7.0-RC1"
   )
 }
 

@@ -1,6 +1,6 @@
 package traits
 
-import io.magnetic.vamp_common.json.Serializers
+import io.vamp.common.json.Serializers
 import org.json4s.Formats
 
 /**
