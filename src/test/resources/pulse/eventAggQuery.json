@@ -1,0 +1,3 @@
+{
+  "tags" : ["test", "event", "integration"], "aggregator" : {"type" : "min", "field" : "arbitraryMetric"}, "type" : "arbitrary.type"
+}

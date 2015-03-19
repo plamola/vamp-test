@@ -1,0 +1,3 @@
+{
+  "tags" : ["test", "metric", "integration"], "aggregator" : {"type" : "average"}
+}
