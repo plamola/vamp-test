@@ -16,7 +16,7 @@ class PulseSuite extends Sequential (
   }
 
   override protected def afterAll(): Unit = {
-    Startup.system.shutdown()
+    Startup.stop
     super.afterAll()
   }
 }
