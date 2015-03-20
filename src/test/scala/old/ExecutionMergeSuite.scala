@@ -23,6 +23,7 @@ import spray.httpx.marshalling._
 import scala.annotation.tailrec
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
+import org.scalatest.Ignore
 
 trait CustomAsserts {
   protected def assertStatusOk(response: HttpResponse) = {
@@ -62,7 +63,8 @@ object ExecutionJsonProtocol extends DefaultJsonProtocol {
 
 
 
-class ExecutionMergeSuite extends FunSuite with BeforeAndAfter with CustomAsserts {
+
+@Ignore class ExecutionMergeSuite extends FunSuite with BeforeAndAfter with CustomAsserts {
   import ExecutionJsonProtocol._
 
   val proxyCleanup = ProxyConfig(Vector.empty, Vector.empty, Vector.empty)

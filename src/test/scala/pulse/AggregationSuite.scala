@@ -9,19 +9,21 @@ import traits.{PulseJsonFormatsProvider, LocalPulseClientProvider, FileAccess}
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-
-class AggregationSuite extends FlatSpec
-  with LocalPulseClientProvider with Matchers with FileAccess with PulseJsonFormatsProvider with Retries with BeforeAndAfterAll with BeforeAndAfter {
-
+private class AggregationSuite extends FlatSpec
+  with LocalPulseClientProvider with Matchers with FileAccess with PulseJsonFormatsProvider with Retries with Cleanup with BeforeAndAfter {
 
 
+  override protected def before(fun: => Any): Unit = {
+    client.resetEvents()
+    super.before(fun)
+  }
 
   def loadFixtures(file: String) = {
     val eventList = parse(readFile(file)).extract[List[Event]]
     eventList.foreach((ev) => Await.result(client.sendEvent(ev), 2 seconds))
   }
 
-  it should "be able to aggregate metrics" taggedAs Retryable in {
+  it should "be able to aggregate metrics" taggedAs (Retryable, CleanableTest) in {
     loadFixtures("metricList.json")
     val agg = parse(readFile("metricAggQuery.json")).extract[EventQuery]
     val res = Await.result(client.getEvents(agg), 2 seconds)
@@ -29,7 +31,7 @@ class AggregationSuite extends FlatSpec
     res.asInstanceOf[Map[String, Double]]("value") shouldEqual 350D
   }
 
-  it should "be able to aggregate events" taggedAs Retryable in {
+  it should "be able to aggregate events" taggedAs (Retryable, CleanableTest) in {
     loadFixtures("eventList.json")
     val agg = parse(readFile("eventAggQuery.json")).extract[EventQuery]
     val res = Await.result(client.getEvents(agg), 2 seconds)

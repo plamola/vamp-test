@@ -17,9 +17,10 @@ libraryDependencies ++= {
     "io.spray"            %%  "spray-client"    % sprayV,
     "io.spray"            %%  "spray-json"    % "1.3.1",
     "com.typesafe.akka"   %%  "akka-actor"    % akkaV,
-    "org.scalatest" % "scalatest_2.11" % "2.2.1" % "test",
+    "org.scalatest" %% "scalatest" % "2.2.1" % "test",
     "com.typesafe" % "config" % "1.2.1",
-    "io.vamp" % "common" % "0.7.0-RC1"
+    "io.vamp" % "common" % "0.7.0-RC1",
+    "io.vamp" %% "pulse" % "0.7.0-RC1"
   )
 }
 

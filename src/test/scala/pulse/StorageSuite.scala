@@ -4,16 +4,16 @@ import io.vamp.common.pulse.api.{EventQuery, Event}
 import org.json4s.native.JsonMethods._
 import org.scalatest.tagobjects.Retryable
 import org.scalatest.time.{Millis, Span}
-import org.scalatest.{Outcome, Retries, Matchers, FlatSpec}
+import org.scalatest._
 import traits.{PulseJsonFormatsProvider, LocalPulseClientProvider, FileAccess}
 import scala.concurrent.Await
 import scala.concurrent.duration._
-import io.vamp.common.json.Serializers
-
-class StorageSuite extends FlatSpec with LocalPulseClientProvider with Matchers with FileAccess with PulseJsonFormatsProvider with Retries {
 
 
-  it should "be able to send a metric to pulse"  in {
+private class StorageSuite extends FlatSpec with LocalPulseClientProvider with Matchers with FileAccess with PulseJsonFormatsProvider with Cleanup with Retries{
+
+
+  it should "be able to send a metric to pulse" taggedAs CleanableTest in {
     val event = parse(readFile("metric.json")).extract[Event]
     val res = Await.result(client.sendEvent(event), 2 seconds)
     res shouldBe an [Event]
@@ -26,7 +26,7 @@ class StorageSuite extends FlatSpec with LocalPulseClientProvider with Matchers 
       res.asInstanceOf[List[_]] should not be empty
   }
 
-  it should "be able to send a json blob to pulse"  in {
+  it should "be able to send a json blob to pulse"  taggedAs CleanableTest in {
     val event = parse(readFile("blob.json")).extract[Event]
     val res = Await.result(client.sendEvent(event), 2 seconds)
     res shouldBe an [Event]
@@ -41,7 +41,7 @@ class StorageSuite extends FlatSpec with LocalPulseClientProvider with Matchers 
   }
 
 
-  it should "be able to send a typed event to pulse" in {
+  it should "be able to send a typed event to pulse" taggedAs CleanableTest in {
     val event = parse(readFile("event.json")).extract[Event]
     val res = Await.result(client.sendEvent(event), 2 seconds)
     res shouldBe an [Event]
@@ -55,8 +55,5 @@ class StorageSuite extends FlatSpec with LocalPulseClientProvider with Matchers 
     res.asInstanceOf[List[_]] should not be empty
   }
 
-  override def withFixture(test: NoArgTest): Outcome = {
-    if(isRetryable(test)) withRetryOnCancel(withRetryOnFailure(Span(2000, Millis))(super.withFixture(test)))
-    else super.withFixture(test)
-  }
+
 }
