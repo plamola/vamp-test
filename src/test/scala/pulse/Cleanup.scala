@@ -1,28 +1,29 @@
 package pulse
 
-import io.vamp.common.pulse.PulseClientProvider
+//import io.vamp.pulse.client.PulseClientProvider
 import org.scalatest.time.{Millis, Span}
 import org.scalatest._
-import io.vamp.pulse.main.Startup
+import traits.LocalPulseClientProvider
+
 object CleanableTest extends Tag("io.vamp.tags.CleanableTest")
 
 trait Cleanup extends BeforeAndAfterAll{
-  this: FlatSpec with Retries with PulseClientProvider =>
+  this: FlatSpec with Retries with LocalPulseClientProvider =>
 
   override protected def beforeAll(): Unit = {
 
-    client.resetEvents()
+    pulseClient.resetEvents()
     super.beforeAll()
   }
 
 
   override protected def afterAll(): Unit = {
-    client.resetEvents()
+    pulseClient.resetEvents()
     super.afterAll()
   }
 
   abstract override def withFixture(test: NoArgTest): Outcome = {
-    if(isCleanable(test)) client.resetEvents()
+    if(isCleanable(test)) pulseClient.resetEvents()
     if(isRetryable(test)) withRetryOnCancel(withRetryOnFailure(Span(2000, Millis))(super.withFixture(test)))
     else super.withFixture(test)
   }

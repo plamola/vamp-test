@@ -1,27 +1,24 @@
 package old
 
 import akka.actor.ActorSystem
-import akka.actor.Status.Success
+
 import akka.io.IO
 import akka.pattern.ask
 import akka.util.Timeout
-import com.typesafe.config.{ConfigFactory, Config}
-import org.scalatest.{BeforeAndAfter, FunSuite, Suite, Stepwise}
+import com.typesafe.config.ConfigFactory
+import org.scalatest.{BeforeAndAfter, FunSuite}
 import spray.can.Http
-import spray.http.{StatusCodes, StatusCode, HttpResponse, HttpRequest}
+import spray.http.{StatusCodes,HttpResponse}
 import spray.client.pipelining._
-import com.typesafe.config
-import spray.httpx.SprayJsonSupport._
-import spray.httpx.ResponseTransformation._
 import spray.httpx.SprayJsonSupport._
 import spray.json.DefaultJsonProtocol
-import spray.util._
 import spray.httpx.unmarshalling._
-import spray.httpx.marshalling._
+import scala.language.postfixOps
+
 
 
 import scala.annotation.tailrec
-import scala.concurrent.{Await, Future}
+import scala.concurrent.Await
 import scala.concurrent.duration._
 import org.scalatest.Ignore
 

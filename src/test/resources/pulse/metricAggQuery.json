@@ -1,3 +1,3 @@
 {
-  "tags" : ["test", "metric", "integration"], "aggregator" : {"type" : "average"}
+  "tags" : ["test", "list_event", "integration"], "aggregator" : {"type" : "min", "field" : "arbitraryMetric"}, "type" : "arbitrary.type"
 }

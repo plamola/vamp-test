@@ -1,32 +1,10 @@
 [
-  {
-    "tags" : ["test", "event", "integration"],
-    "value" : { "arbitraryMetric" : 300},
-    "type" : "arbitrary.type"
-  },
-  {
-    "tags" : ["test", "event", "integration"],
-    "value" : { "arbitraryMetric" : 200},
-    "type" : "arbitrary.type"
-  },
-  {
-    "tags" : ["test", "event", "integration"],
-    "value" : { "arbitraryMetric" : 150},
-    "type" : "arbitrary.type"
-  },
-  {
-    "tags" : ["test", "event", "integration"],
-    "value" : { "arbitraryMetric" : 500},
-    "type" : "arbitrary.type"
-  },
-  {
-    "tags" : ["test", "event", "integration"],
-    "value" : { "arbitraryMetric" : 120},
-    "type" : "arbitrary.type"
-  },
-  {
-    "tags" : ["test", "event", "integration"],
-    "value" : { "arbitraryMetric" : 10},
-    "type" : "arbitrary.type"
-  }
+  {"tags" : ["test", "list_metric", "integration"], "value" : 300},
+  {"tags" : ["test", "list_metric", "integration"], "value" : 300},
+  {"tags" : ["test", "list_metric", "integration"], "value" : 300},
+  {"tags" : ["test", "list_metric", "integration"], "value" : 300},
+  {"tags" : ["test", "list_metric", "integration"], "value" : 400},
+  {"tags" : ["test", "list_metric", "integration"], "value" : 400},
+  {"tags" : ["test", "list_metric", "integration"], "value" : 400},
+  {"tags" : ["test", "list_metric", "integration"], "value" : 400}
 ]

@@ -1,14 +1,18 @@
 version       := "0.1"
 
-scalaVersion  := "2.11.2"
+resolvers in ThisBuild += Resolver.url("magnetic-io ivy resolver", url("http://dl.bintray.com/magnetic-io/vamp"))(Resolver.ivyStylePatterns)
 
-scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
+resolvers in ThisBuild ++= Seq(
+  Resolver.typesafeRepo("releases"),
+  Resolver.jcenterRepo
+)
 
-resolvers += Resolver.mavenLocal
 
 libraryDependencies ++= {
   val akkaV = "2.3.6"
   val sprayV = "1.3.2"
+  val slf4jVersion = "1.7.10"
+  val logbackVersion = "1.1.2"
   Seq(
     "io.spray"            %%  "spray-can"     % sprayV,
     "io.spray"            %%  "spray-http"    % sprayV,
@@ -18,9 +22,24 @@ libraryDependencies ++= {
     "io.spray"            %%  "spray-json"    % "1.3.1",
     "com.typesafe.akka"   %%  "akka-actor"    % akkaV,
     "org.scalatest" %% "scalatest" % "2.2.1" % "test",
+    "com.github.nikita-volkov" % "sext" % "0.2.3" % "test",
+    "org.slf4j" % "slf4j-api" % slf4jVersion,
+    "ch.qos.logback" % "logback-classic" % logbackVersion,
     "com.typesafe" % "config" % "1.2.1",
-    "io.vamp" % "common" % "0.7.0-RC1",
-    "io.vamp" %% "pulse" % "0.7.0-RC1"
+    "io.vamp" %% "common" % "0.7.9-dev.9ef6354",
+    "io.vamp" %% "pulse-server" % "0.7.9-dev.e684e94"
   )
 }
+
+
+scalaVersion  := "2.11.7"
+
+scalacOptions += "-target:jvm-1.8"
+
+javacOptions ++= Seq("-encoding", "UTF-8")
+
+scalacOptions in ThisBuild ++= Seq(Opts.compile.deprecation, Opts.compile.unchecked) ++
+  Seq("-Ywarn-unused-import", "-Ywarn-unused", "-Xlint", "-feature")
+
+
 

@@ -1,6 +1,6 @@
 package pulse
 
-import io.vamp.pulse.main.Startup
+import io.vamp.pulse.client
 import org.scalatest.{BeforeAndAfterAll, BeforeAndAfter, Sequential}
 
 /**
@@ -11,12 +11,14 @@ class PulseSuite extends Sequential (
   new StorageSuite
 ) with BeforeAndAfterAll {
   override protected def beforeAll(): Unit = {
-    Startup.main(Array.empty)
+    //TODO fix this
+    //Startup.main(Array.empty)
     super.beforeAll()
   }
 
   override protected def afterAll(): Unit = {
-    Startup.stop
+    //TODO fix this
+    //Startup.stop
     super.afterAll()
   }
 }
