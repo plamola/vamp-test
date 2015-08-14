@@ -1,6 +1,6 @@
-package pulse
+package io.vamp.test.pulse
 
-//import io.vamp.pulse.client.PulseClientProvider
+//import io.vamp.io.vamp.test.pulse.client.PulseClientProvider
 import org.scalatest.time.{Millis, Span}
 import org.scalatest._
 import traits.LocalPulseClientProvider

@@ -1,4 +1,4 @@
-package pulse
+package io.vamp.test.pulse
 
 
 
@@ -41,14 +41,14 @@ private class StorageSuite extends FlatSpec with LocalPulseClientProvider with M
   }
 
 
-//  it should "be able to query recently sent blob from pulse" taggedAs Retryable in {
+//  it should "be able to query recently sent blob from io.vamp.test.pulse" taggedAs Retryable in {
 //    val query = parse(readFile("blobQuery.json")).extract[EventQuery]
 //    val res =  Await.result(pulseClient.getEvents(query.tags), 2 seconds)
 //    res.asInstanceOf[List[Event]] should not be empty
 //  }
 
 
-  it should "be able to send a typed event to pulse" taggedAs CleanableTest in {
+  it should "be able to send a typed event to .pulse" taggedAs CleanableTest in {
     val event = parse(readFile("event.json")).extract[Event]
     val res = Await.result(pulseClient.sendEvent(event), 2 seconds)
     res shouldBe an [Event]

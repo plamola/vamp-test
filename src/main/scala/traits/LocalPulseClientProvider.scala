@@ -5,11 +5,10 @@ import java.time.OffsetDateTime
 import io.vamp.common.akka.ExecutionContextProvider
 import io.vamp.common.http.RestClient
 import io.vamp.pulse.client.{PulseClient, PulseClientProvider}
-import io.vamp.pulse.model.{TimeRange, EventQuery, Event}
+import io.vamp.pulse.model.{Event, EventQuery, TimeRange}
 
-
-import scala.concurrent.{Future, ExecutionContext}
-import ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{ExecutionContext, Future}
 import scala.reflect.ClassTag
 
 
@@ -24,7 +23,7 @@ class PulseTestClient(override val url: String)(implicit executionContext: Execu
   override def sendEvent(event: Event): Future[Event] = RestClient.post[Event](
     url = s"$url/api/v1/events",
     body = event,
-    headers =  headers
+    headers = headers
   )
 
   override def getEvents(tags: Set[String], from: Option[OffsetDateTime] = None, to: Option[OffsetDateTime] = None, includeLower: Boolean = true, includeUpper: Boolean = true): Future[List[Event]] = {
@@ -35,7 +34,7 @@ class PulseTestClient(override val url: String)(implicit executionContext: Execu
     RestClient.post[T](
       url = s"$url/api/v1/events/get",
       body = query,
-      headers =  headers
+      headers = headers
     )
   }
 
@@ -47,7 +46,7 @@ trait LocalPulseClientProvider extends PulseClientProvider with ConfigProvider w
     global
   }
 
-  override protected val pulseUrl: String = config.getString("endpoints.pulse.url")
+  override protected val pulseUrl: String = config.getString("endpoints.events.url")
 
   override lazy val pulseClient = new PulseTestClient(pulseUrl)
 

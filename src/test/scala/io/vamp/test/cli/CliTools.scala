@@ -1,5 +1,4 @@
-package cli
-
+package io.vamp.test.cli
 
 import traits.ConfigProvider
 

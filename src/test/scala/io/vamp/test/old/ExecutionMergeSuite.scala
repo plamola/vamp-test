@@ -1,4 +1,4 @@
-package old
+package io.vamp.test.old
 
 import akka.actor.ActorSystem
 

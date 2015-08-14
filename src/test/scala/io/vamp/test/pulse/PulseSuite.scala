@@ -1,4 +1,4 @@
-package pulse
+package io.vamp.test.pulse
 
 import io.vamp.pulse.client
 import org.scalatest.{BeforeAndAfterAll, BeforeAndAfter, Sequential}

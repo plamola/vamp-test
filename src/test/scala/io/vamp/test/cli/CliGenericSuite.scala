@@ -1,7 +1,7 @@
-package cli
+package io.vamp.test.cli
 
 import org.scalatest._
-import pulse.CleanableTest
+import io.vamp.test.pulse.CleanableTest
 import traits.{ConfigProvider, FileAccess}
 
 import scala.language.postfixOps

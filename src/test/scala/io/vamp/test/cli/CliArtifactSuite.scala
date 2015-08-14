@@ -1,4 +1,4 @@
-package cli
+package io.vamp.test.cli
 
 import org.scalatest._
 import traits.{ConfigProvider, FileAccess}

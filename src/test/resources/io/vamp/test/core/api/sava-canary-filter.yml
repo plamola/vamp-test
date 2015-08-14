@@ -1,0 +1,34 @@
+---
+name: sava:1.0
+
+endpoints:
+  sava.port: 9050/http
+clusters:
+  sava:
+    services: # services is now a list of breeds
+      -
+        breed:
+          name: sava:1.0.0
+          deployable: magneticio/sava:1.0.0
+          ports:
+            port: 8080/http
+        scale:
+          cpu: 0.2
+          memory: 256
+          instances: 1
+        routing:
+          weight: 100
+      -
+        breed:
+          name: sava:1.1.0
+          deployable: magneticio/sava:1.1.0
+          ports:
+            port: 8080/http
+        scale:
+          cpu: 0.2
+          memory: 256
+          instances: 1
+        routing:
+          weight: 0
+          filters:
+            - condition: User-Agent = Chrome
