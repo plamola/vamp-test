@@ -19,7 +19,7 @@ trait DeploymentTools extends RestSupport with ConfigProvider {
 
   implicit val host: String = config.getString("endpoints.router.host")
 
-  def interfaceDescription : String
+  def interfaceDescription: String
 
   def getDeploymentbyName(name: String): Option[Deployment]
 
@@ -55,8 +55,13 @@ trait DeploymentTools extends RestSupport with ConfigProvider {
 
   def areAllServicesDeployed(deployment: Deployment): Boolean = allDeploymentServiceStates(deployment = deployment).count(state => !state.isInstanceOf[DeploymentService.Deployed]) == 0d
 
-  def getApplicationPage(myApp: DeployableApp): String = Await.result(RestClient.get[String](appCheckUrl(myApp)), myApp.appWaitTime seconds)
+  def getApplicationPage(myApp: DeployableApp, headers: List[(String, String)] = List.empty): String = Await.result(
+    RestClient.get[String](
+      url = appCheckUrl(myApp),
+      headers = headers
+    ), myApp.appWaitTime seconds)
 
-  private def appCheckUrl(myApp: DeployableApp): String = s"http://$host:${myApp.checkPort}/${myApp.checkUri}"
+  def appCheckUrl(myApp: DeployableApp): String = s"http://$host:${myApp.checkPort}/${myApp.checkUri}"
+
 
 }
