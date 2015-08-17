@@ -1,15 +1,9 @@
 package io.vamp.test.core.api
 
-import traits.{RestSupport, ConfigProvider}
+import traits.ConfigProvider
 
-import scala.concurrent.ExecutionContext
-import scala.concurrent.ExecutionContext.Implicits._
 
-trait CoreTools extends RestSupport with ConfigProvider {
-
-  implicit def executionContext: ExecutionContext = {
-    global
-  }
+trait CoreTools extends ConfigProvider {
 
   implicit val url: String = config.getString("endpoints.core.url")
 

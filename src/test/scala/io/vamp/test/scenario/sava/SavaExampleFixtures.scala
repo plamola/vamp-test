@@ -1,11 +1,12 @@
-package io.vamp.test.model
+package io.vamp.test.scenario.sava
 
+import io.vamp.test.model.DeployableApp
 
-object AppDefinitions {
+object SavaExampleFixtures {
 
   val mySava1_0 = new DeployableApp(
     name = "sava 1.0",
-    filename = "sava1.0.yml",
+    filename = "/io/vamp/test/sava/sava1.0.yml",
     nrOfServices = 1,
     checkPort = 9050,
     checkUri = "public/",
@@ -16,7 +17,7 @@ object AppDefinitions {
 
   val mySavaCanary = new DeployableApp(
     name = "sava canary",
-    filename = "sava-canary-start.yml",
+    filename = "/io/vamp/test//sava/sava-canary-start.yml",
     nrOfServices = 2,
     checkPort = 9050,
     checkUri = "public/",
@@ -27,7 +28,7 @@ object AppDefinitions {
 
   val mySavaCanaryFilter = new DeployableApp(
     name = "sava canary (filter)",
-    filename = "sava-canary-filter.yml",
+    filename = "/io/vamp/test/sava/sava-canary-filter.yml",
     nrOfServices = 2,
     checkPort = 9050,
     checkUri = "public/",
@@ -38,7 +39,7 @@ object AppDefinitions {
 
   val mySava1_1 = new DeployableApp(
     name = "sava 1.2",
-    filename = "sava1.2.yml",
+    filename = "/io/vamp/test/sava/sava1.2.yml",
     nrOfServices = 3,
     checkPort = 9060,
     checkUri = "public/",

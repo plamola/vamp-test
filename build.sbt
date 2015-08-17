@@ -32,6 +32,8 @@ libraryDependencies ++= {
 }
 
 
+parallelExecution in Test := false
+
 scalaVersion  := "2.11.7"
 
 scalacOptions += "-target:jvm-1.8"
