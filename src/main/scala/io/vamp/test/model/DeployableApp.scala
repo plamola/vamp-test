@@ -1,6 +1,5 @@
 package io.vamp.test.model
 
-
 /** *
   * DeployableApp describes the application
   * @param name                - name of the application to be tested

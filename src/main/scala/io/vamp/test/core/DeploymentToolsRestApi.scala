@@ -1,4 +1,4 @@
-package io.vamp.test.core.api
+package io.vamp.test.core
 
 import io.vamp.core.model.artifact.{Blueprint, Deployment}
 import io.vamp.core.model.reader.DeploymentReader

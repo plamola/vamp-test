@@ -2,7 +2,7 @@ package io.vamp.test.common
 
 import io.vamp.core.model.artifact.Deployment
 import io.vamp.core.model.reader.BlueprintReader
-import io.vamp.test.model.{BrowserDefinition, DeployableApp, Frontend}
+import io.vamp.test.model.{Frontend, DeployableApp, BrowserDefinition}
 import org.scalatest.Matchers
 
 import scala.concurrent.Await

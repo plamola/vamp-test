@@ -6,9 +6,9 @@ import io.vamp.test.model.DeployableApp
 import traits.{ConfigProvider, RestSupport}
 
 import scala.concurrent.ExecutionContext.Implicits._
-import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.language.postfixOps
+import scala.concurrent.duration._
 
 
 trait DeploymentTools extends RestSupport with ConfigProvider {

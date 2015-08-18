@@ -1,4 +1,4 @@
-package io.vamp.test.core.api
+package io.vamp.test.core
 
 import traits.ConfigProvider
 

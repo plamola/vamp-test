@@ -28,17 +28,17 @@ private class AggregationSuite extends FlatSpec
     loadFixtures("metricList.json")
     val agg = parse(readFile("metricAggQuery.json")).extract[EventQuery]
     val res = Await.result(pulseClient.query[Map[String, Double]](agg), 2 seconds)
-    res shouldBe a [Map[String, Double]]
+    res shouldBe a [Map[_,Double]]
     res.asInstanceOf[Map[String, Double]]("value") shouldEqual 10D
   }
 
-//  it should "be able to aggregate events" taggedAs (Retryable, CleanableTest) in {
-//    loadFixtures("eventList.json")
-//    val agg = parse(readFile("eventAggQuery.json")).extract[EventQuery]
-//    val res = Await.result(pulseClient.query[Map[String, Double]](agg), 2 seconds)
-//    res shouldBe a [Map[String, Double]]
-//    res.asInstanceOf[Map[String, Double]]("value") shouldEqual 350D
-//  }
+  ignore should "be able to aggregate events" taggedAs (Retryable, CleanableTest) in {
+    loadFixtures("eventList.json")
+    val agg = parse(readFile("eventAggQuery.json")).extract[EventQuery]
+    val res = Await.result(pulseClient.query[Map[String, Double]](agg), 2 seconds)
+    res shouldBe a [Map[_, Double]]
+    res.asInstanceOf[Map[String, Double]]("value") shouldEqual 350D
+  }
 
   override def withFixture(test: NoArgTest): Outcome = {
     if(isRetryable(test)) withRetryOnCancel(withRetryOnFailure(Span(5000, Millis))(super.withFixture(test)))

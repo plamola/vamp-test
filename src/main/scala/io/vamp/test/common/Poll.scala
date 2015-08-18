@@ -1,6 +1,5 @@
 package io.vamp.test.common
 
-
 class Poll[A](body: => A) {
   def until(cond: A => Boolean): A = {
     val result = body

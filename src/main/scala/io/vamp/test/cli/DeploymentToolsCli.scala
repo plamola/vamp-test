@@ -1,6 +1,5 @@
 package io.vamp.test.cli
 
-
 import io.vamp.core.model.artifact.{Blueprint, Deployment}
 import io.vamp.core.model.reader.DeploymentReader
 import io.vamp.test.common.DeploymentTools

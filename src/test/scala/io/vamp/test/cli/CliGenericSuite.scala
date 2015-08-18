@@ -29,18 +29,4 @@ class CliGenericSuite extends FlatSpec with CliTools with ConfigProvider with Ma
     res.startsWith("Usage: vamp COMMAND [args..]") should be (true)
   }
 
-
-  // TODO create
-  // TODO deploy
-  // TODO filters
-  // TODO generate
-  // TODO inspect
-  // TODO list
-  // TODO merge
-  // TODO remove
-  // TODO undeploy
-  // TODO update
-
-
-
 }
