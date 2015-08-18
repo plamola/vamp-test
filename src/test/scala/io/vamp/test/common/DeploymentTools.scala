@@ -59,9 +59,9 @@ trait DeploymentTools extends RestSupport with ConfigProvider {
     RestClient.get[String](
       url = appCheckUrl(myApp),
       headers = headers
-    ), myApp.appWaitTime seconds)
+    ), myApp.applicationTimeout seconds)
 
-  def appCheckUrl(myApp: DeployableApp): String = s"http://$host:${myApp.checkPort}/${myApp.checkUri}"
+  def appCheckUrl(myApp: DeployableApp): String = s"http://$host:${myApp.endpoint}/${myApp.checkUri}"
 
 
 }

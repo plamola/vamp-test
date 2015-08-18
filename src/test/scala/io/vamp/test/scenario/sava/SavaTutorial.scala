@@ -24,19 +24,19 @@ trait SavaTutorial extends DeploymentTest {
       performDeploymentUpdate(SavaTutorialFixtures.mySavaCanary, deploymentName)
       validateDeployment(SavaTutorialFixtures.mySavaCanary, deploymentName)
 
-      info("[TODO] Confirm both services are reachable and load is distributed evenly (sort of)")
-      //TODO Verify both services are reachable
+      // Make sure the weight is distributed evenly
+      testWeightDistribution(SavaTutorialFixtures.mySavaCanary, 100, 10)
 
       performDeploymentUpdate(SavaTutorialFixtures.mySavaCanaryFilter, deploymentName)
       validateDeployment(SavaTutorialFixtures.mySavaCanaryFilter, deploymentName)
 
-      // Filter routes chrome to different front-end, so lets check if chrome goes to the new version
-      checkWebResponseSpecific(SavaTutorialFixtures.mySavaCanaryFilter, SavaTutorialFixtures.savaFrontEnd1_1, Browsers.Chrome)
+      // The filter should route Chrome to the new Sava 1.1 (the canary)
+      testWebResponseSpecific(SavaTutorialFixtures.mySavaCanaryFilter, SavaTutorialFixtures.savaFrontEnd1_1, Browsers.Chrome)
 
-      // All other browser should go to the old version
-      checkWebResponseSpecific(SavaTutorialFixtures.mySavaCanaryFilter, SavaTutorialFixtures.savaFrontEnd1_0, Browsers.Firefox)
-      checkWebResponseSpecific(SavaTutorialFixtures.mySavaCanaryFilter, SavaTutorialFixtures.savaFrontEnd1_0, Browsers.Safari)
-      checkWebResponseSpecific(SavaTutorialFixtures.mySavaCanaryFilter, SavaTutorialFixtures.savaFrontEnd1_0, Browsers.IE)
+      // All other browsers should go to the old version
+      testWebResponseSpecific(SavaTutorialFixtures.mySavaCanaryFilter, SavaTutorialFixtures.savaFrontEnd1_0, Browsers.Firefox)
+      testWebResponseSpecific(SavaTutorialFixtures.mySavaCanaryFilter, SavaTutorialFixtures.savaFrontEnd1_0, Browsers.Safari)
+      testWebResponseSpecific(SavaTutorialFixtures.mySavaCanaryFilter, SavaTutorialFixtures.savaFrontEnd1_0, Browsers.IE)
 
       undeployAndValidate(SavaTutorialFixtures.mySavaCanaryFilter, deploymentName)
     }

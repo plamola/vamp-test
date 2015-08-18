@@ -1,16 +1,34 @@
 package io.vamp.test.model
 
-case class DeployableApp(name: String = "myTestApp",     // name of the application to be tested
-                         filename: String,               // yaml file containing a blueprint
-                         nrOfServices: Int,              // nr of services defined in the blueprint
-                         deploymentWaitTime: Int = 15,   // # of seconds to wait for the app deployment to finish
-                         undeployWaitTime: Int = 30,     // # of seconds to wait for the app to be undeployed
-                         checkPort: Int,                 // endpoint on which the app will be deployed
-                         checkUri: String,               // uri to check the deployed app
-                         appWaitTime: Int = 2,        // # of seconds in which the app should respond
-                         frontEnds: Seq[FrontEnd]
+
+/** *
+  * DeployableApp describes the application
+  * @param name                - name of the application to be tested
+  * @param filename            - yaml file containing a blueprint
+  * @param nrOfServices        - nr of services defined in the blueprint
+  * @param deploymentWaitTime  - # of seconds to wait for the app deployment to finish
+  * @param undeployWaitTime    - # of seconds to wait for the app to be undeployed
+  * @param endpoint            - endpoint on which the app will be deployed
+  * @param checkUri            - uri to check the deployed app
+  * @param applicationTimeout  - # of seconds in which the app should respond
+  * @param frontends           - FrontEnds deployed with this application
+  */
+case class DeployableApp(name: String,
+                         filename: String,
+                         nrOfServices: Int,
+                         deploymentWaitTime: Int = 15,
+                         undeployWaitTime: Int = 30,
+                         endpoint: Int,
+                         checkUri: String,
+                         applicationTimeout: Int = 2,
+                         frontends: Seq[Frontend]
                           )
 
-case class FrontEnd(appTitle: String,           // Title of the html file
-                    checkResponsePart: String  // something which should be present in the response from the app, only one element must match
-                     )
+
+/** *
+  *
+  * @param name                     - name of the front end, for reporting purposes
+  * @param textRequiredInResponse   - something which should be present in the response from the frontend
+  * @param weight                   - Filter weight
+  */
+case class Frontend(name: String, textRequiredInResponse: String, weight: Int = 100)
