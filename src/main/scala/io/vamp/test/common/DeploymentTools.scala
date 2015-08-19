@@ -23,6 +23,8 @@ trait DeploymentTools extends RestSupport with ConfigProvider {
 
   def getDeploymentbyName(name: String): Option[Deployment]
 
+  def getAllDeployments : List[Deployment]
+
   def deploy(blueprint: Blueprint): Option[Deployment]
 
   def deploymentUpdate(blueprint: Blueprint, deploymentName: String): Option[Deployment]
@@ -62,6 +64,14 @@ trait DeploymentTools extends RestSupport with ConfigProvider {
     ), myApp.applicationTimeout seconds)
 
   def appCheckUrl(myApp: DeployableApp): String = s"http://$host:${myApp.endpoint}/${myApp.checkUri}"
+
+  def removeAllDeployments(maxWaitTime: Int = 60) {
+    getAllDeployments.foreach { deployment =>
+      undeploy(deployment)
+      // Assume every deployment can be removed within 60 seconds
+      assert(Await.result(verifyDeploymentIsRemoved(deployment.name), maxWaitTime seconds), s"Deployment ${deployment.name} could not be removed within reasonable time")
+    }
+  }
 
 
 }

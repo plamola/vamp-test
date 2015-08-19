@@ -31,6 +31,11 @@ trait DeploymentToolsRestApi extends DeploymentTools with CoreTools with YamlUti
     case None => None
   }
 
+  override def getAllDeployments : List[Deployment] = sendAndWaitYaml(request = s"GET $url/api/v1/deployments") match {
+    case Some(deploymentsString) => yamlArrayListToList(deploymentsString).map(deployment=> DeploymentReader.read(deployment))
+    case None => List.empty
+  }
+
 }
 
 

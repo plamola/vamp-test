@@ -58,7 +58,34 @@ trait DeploymentToolsCli extends DeploymentTools with CliTools with YamlUtils {
     } catch {
       case e: RuntimeException => None
     }
+
+
+  override def getAllDeployments : List[Deployment] =
+    try {
+      //TODO implement this
+      List.empty
+    }  catch {
+      case e: RuntimeException =>List.empty
+    }
+
+
+//
+//  sendAndWaitYaml(request = s"GET$url/api/v1/deployments") match {
+//    case Some(deploymentsString) =>
+//      yamlArrayListToList(deploymentsString).map(deployment=> DeploymentReader.read(deployment))
+//    case None => List.empty
+//  }
+
+
+
+
 }
+
+
+
+
+
+
 
 
 
