@@ -2,22 +2,19 @@ package io.vamp.test.common
 
 import io.vamp.core.model.artifact.Artifact
 
+trait ArtifactTools[T <: Artifact] {
 
-trait ArtifactTools {
+  def getAll: List[T]
 
-  def getAll[A <: Artifact]: List[A]
+  def getByName(name: String): Option[T]
 
-  def getByName[A <: Artifact]: A
+  def create(artifact: T): Option[T]
 
-  def create[A <: Artifact](artifact: A)
+  def update(name: String, artifact: T) : Option[T]
 
-  def update[A <: Artifact](artifact: A)
+  def delete(name: String)
 
-  def delete[A <: Artifact](artifact: A)
-
-  def deleteAll[A <: Artifact]() {
-    getAll[A].foreach { artifact => delete(artifact) }
-  }
+  def deleteAll() = getAll.foreach { artifact => delete(artifact.name) }
 
 }
 
