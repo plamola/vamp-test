@@ -1,8 +1,8 @@
 package traits
 
 
-import io.vamp.common.http.RestClient.Method
 import io.vamp.common.http.RestClient
+import io.vamp.common.http.RestClient.Method
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
@@ -17,6 +17,9 @@ trait RestSupport {
 
   def sendAndWaitYaml(request: String, body: Option[String] = None)(implicit m: Manifest[String]): Option[String] =
     sendAndWait(request, body, List("Accept" -> "application/x-yaml", "Content-Type" -> "application/x-yaml", RestClient.acceptEncodingIdentity))
+
+  def sendAndWaitJson(request: String, body: Option[String] = None)(implicit m: Manifest[String]): Option[String] =
+    sendAndWait(request, body, List("Accept" -> "application/json", "Content-Type" -> "application/json", RestClient.acceptEncodingIdentity))
 
   private def sendAndWait(request: String, body: AnyRef, headers: List[(String, String)])(implicit m: Manifest[String]): Option[String] = {
     try {
@@ -37,8 +40,6 @@ trait RestSupport {
       case e: Exception => None
     }
   }
-  
-
 
 
 }
