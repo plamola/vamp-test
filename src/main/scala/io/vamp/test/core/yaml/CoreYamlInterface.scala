@@ -1,10 +1,9 @@
-package io.vamp.test.core
+package io.vamp.test.core.yaml
 
-import io.vamp.test.common.VampInterface
-import traits.{ConfigProvider, RestSupport}
+import io.vamp.test.common.{ConfigProvider, RestSupport, VampInterface}
 
 
-trait CoreInterface extends VampInterface with ConfigProvider with RestSupport {
+trait CoreYamlInterface extends VampInterface with ConfigProvider with RestSupport {
 
   def url: String = config.getString("endpoints.core.url")
 

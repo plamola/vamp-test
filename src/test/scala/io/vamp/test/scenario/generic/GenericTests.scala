@@ -1,7 +1,6 @@
 package io.vamp.test.scenario.generic
 
-import io.vamp.test.common.{VampTest, VampInterface}
-import traits.ConfigProvider
+import io.vamp.test.common.{ConfigProvider, VampTest, VampInterface}
 
 trait GenericTests extends VampTest with ConfigProvider with VampInterface {
 

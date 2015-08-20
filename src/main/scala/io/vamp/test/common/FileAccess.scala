@@ -1,4 +1,4 @@
-package traits
+package io.vamp.test.common
 
 import scala.io._
 import scala.language.postfixOps

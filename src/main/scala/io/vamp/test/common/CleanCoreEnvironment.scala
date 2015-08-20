@@ -5,7 +5,6 @@ import io.vamp.core.model.artifact.Artifact
 trait CleanCoreEnvironment extends DeploymentTools {
 
 
-
   def hasDeployments: Boolean = getAllDeployments.isEmpty
 
 
@@ -23,7 +22,6 @@ trait CleanCoreEnvironment extends DeploymentTools {
   def removeAllBlueprints(): Unit = {
 
   }
-
 
 
 }

@@ -1,5 +1,4 @@
-package traits
-
+package io.vamp.test.common
 
 import io.vamp.common.http.RestClient
 import io.vamp.common.http.RestClient.Method

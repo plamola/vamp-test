@@ -1,16 +1,15 @@
-package traits
+package io.vamp.test.common
 
 import java.util
 
 import io.vamp.core.model.artifact.Artifact
 import io.vamp.core.model.serialization.CoreSerializationFormat
+import org.json4s.native.Serialization._
 import org.yaml.snakeyaml.DumperOptions.FlowStyle
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.nodes.Tag
 
 import scala.collection.JavaConverters._
-import org.json4s.native.Serialization._
-
 
 
 trait YamlUtils {

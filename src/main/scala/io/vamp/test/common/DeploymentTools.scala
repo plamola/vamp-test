@@ -3,12 +3,11 @@ package io.vamp.test.common
 import io.vamp.common.http.RestClient
 import io.vamp.core.model.artifact.{Blueprint, Deployment, DeploymentService}
 import io.vamp.test.model.DeployableApp
-import traits.ConfigProvider
 
 import scala.concurrent.ExecutionContext.Implicits._
+import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.language.postfixOps
-import scala.concurrent.duration._
 
 
 trait DeploymentTools extends ConfigProvider {
@@ -21,7 +20,7 @@ trait DeploymentTools extends ConfigProvider {
 
   def getDeploymentbyName(name: String): Option[Deployment]
 
-  def getAllDeployments : List[Deployment]
+  def getAllDeployments: List[Deployment]
 
   def deploy(blueprint: Blueprint): Option[Deployment]
 

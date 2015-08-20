@@ -1,13 +1,13 @@
-package io.vamp.test.cli
+package io.vamp.test.cli.yaml
 
-import org.scalatest._
+import io.vamp.test.common.FileAccess
 import io.vamp.test.pulse.CleanableTest
-import traits.FileAccess
+import org.scalatest._
 
 import scala.language.postfixOps
 
 
-class CliGenericSuite extends FlatSpec with CliInterface with Matchers with FileAccess with Retries {
+class CliGenericSuite extends FlatSpec with CliYamlInterface with Matchers with FileAccess with Retries {
 
 
   // version

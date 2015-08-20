@@ -1,14 +1,13 @@
-package io.vamp.test.cli
+package io.vamp.test.cli.yaml
 
 import java.io.{File, PrintWriter}
 
-import io.vamp.test.common.VampInterface
-import traits.ConfigProvider
+import io.vamp.test.common.{ConfigProvider, VampInterface}
 
 import scala.language.postfixOps
 import scala.sys.process._
 
-trait CliInterface extends VampInterface with ConfigProvider {
+trait CliYamlInterface extends VampInterface with ConfigProvider {
 
   def url: String = config.getString("endpoints.core.url")
 

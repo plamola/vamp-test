@@ -1,4 +1,4 @@
-package traits
+package io.vamp.test.common
 
 import com.typesafe.config.ConfigFactory
 

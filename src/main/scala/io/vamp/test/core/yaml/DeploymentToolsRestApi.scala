@@ -1,13 +1,12 @@
-package io.vamp.test.core
+package io.vamp.test.core.yaml
 
 import io.vamp.core.model.artifact.{Blueprint, Deployment}
 import io.vamp.core.model.reader.DeploymentReader
-import io.vamp.test.common.DeploymentTools
-import traits.YamlUtils
+import io.vamp.test.common.{DeploymentTools, YamlUtils}
 
 import scala.language.postfixOps
 
-trait DeploymentToolsRestApi extends DeploymentTools with CoreInterface with YamlUtils {
+trait DeploymentToolsRestApi extends DeploymentTools with CoreYamlInterface with YamlUtils {
 
 
   override def getDeploymentbyName(name: String): Option[Deployment] = sendAndWaitYaml(request = s"GET $url/api/v1/deployments/$name") match {
@@ -30,8 +29,8 @@ trait DeploymentToolsRestApi extends DeploymentTools with CoreInterface with Yam
     case None => None
   }
 
-  override def getAllDeployments : List[Deployment] = sendAndWaitYaml(request = s"GET $url/api/v1/deployments") match {
-    case Some(deploymentsString) => yamlArrayListToList(deploymentsString).map(deployment=> DeploymentReader.read(deployment))
+  override def getAllDeployments: List[Deployment] = sendAndWaitYaml(request = s"GET $url/api/v1/deployments") match {
+    case Some(deploymentsString) => yamlArrayListToList(deploymentsString).map(deployment => DeploymentReader.read(deployment))
     case None => List.empty
   }
 

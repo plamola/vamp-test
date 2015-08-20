@@ -1,11 +1,8 @@
 package io.vamp.test.pulse
 
-//import io.vamp.io.vamp.test.pulse.client.PulseClientProvider
 import org.scalatest.time.{Millis, Span}
 import org.scalatest._
-import traits.LocalPulseClientProvider
 
-object CleanableTest extends Tag("io.vamp.tags.CleanableTest")
 
 trait Cleanup extends BeforeAndAfterAll{
   this: FlatSpec with Retries with LocalPulseClientProvider =>

@@ -1,5 +1,6 @@
 package io.vamp.test.core
 
+import io.vamp.test.core.yaml.CleanCoreEnvironmentRestAPI
 import org.scalatest.FeatureSpec
 
 

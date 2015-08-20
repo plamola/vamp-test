@@ -1,23 +1,21 @@
-package traits
+package io.vamp.test.pulse
 
 import java.time.OffsetDateTime
 
-import io.vamp.common.akka.ExecutionContextProvider
 import io.vamp.common.http.RestClient
-import io.vamp.pulse.client.{PulseClient, PulseClientProvider}
+import io.vamp.pulse.client.PulseClient
 import io.vamp.pulse.model.{Event, EventQuery, TimeRange}
+import io.vamp.test.json.PulseJsonFormatsProvider
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 import scala.reflect.ClassTag
-
 
 class PulseTestClient(override val url: String)(implicit executionContext: ExecutionContext) extends PulseClient(url) with PulseJsonFormatsProvider {
 
   val headers = RestClient.jsonHeaders ++ List(RestClient.acceptEncodingIdentity)
 
   def resetEvents(): Unit = {
-    println("resetEvents method no longer exists")
+    //TODO resetEvents method no longer exists
   }
 
   override def sendEvent(event: Event): Future[Event] = RestClient.post[Event](
@@ -38,16 +36,5 @@ class PulseTestClient(override val url: String)(implicit executionContext: Execu
     )
   }
 
-
-}
-
-trait LocalPulseClientProvider extends PulseClientProvider with ConfigProvider with ExecutionContextProvider {
-  override implicit def executionContext: ExecutionContext = {
-    global
-  }
-
-  override protected val pulseUrl: String = config.getString("endpoints.events.url")
-
-  override lazy val pulseClient = new PulseTestClient(pulseUrl)
 
 }

@@ -1,14 +1,13 @@
-package io.vamp.test.cli
+package io.vamp.test.cli.yaml
 
 import io.vamp.core.model.artifact.{Blueprint, Deployment}
 import io.vamp.core.model.reader.DeploymentReader
-import io.vamp.test.common.DeploymentTools
-import traits.YamlUtils
+import io.vamp.test.common.{DeploymentTools, YamlUtils}
 
 import scala.language.postfixOps
 
 
-trait DeploymentToolsCli extends DeploymentTools with CliInterface with YamlUtils {
+trait DeploymentToolsCli extends DeploymentTools with CliYamlInterface with YamlUtils {
 
   override def getDeploymentbyName(name: String): Option[Deployment] = {
     try {
@@ -58,12 +57,12 @@ trait DeploymentToolsCli extends DeploymentTools with CliInterface with YamlUtil
     }
 
 
-  override def getAllDeployments : List[Deployment] =
+  override def getAllDeployments: List[Deployment] =
     try {
       //TODO implement this
       List.empty
-    }  catch {
-      case e: RuntimeException =>List.empty
+    } catch {
+      case e: RuntimeException => List.empty
     }
 
 

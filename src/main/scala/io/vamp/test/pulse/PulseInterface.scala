@@ -1,7 +1,6 @@
 package io.vamp.test.pulse
 
-import io.vamp.test.common.VampInterface
-import traits.{ConfigProvider, RestSupport}
+import io.vamp.test.common.{ConfigProvider, RestSupport, VampInterface}
 
 
 trait PulseInterface extends VampInterface with ConfigProvider with RestSupport {

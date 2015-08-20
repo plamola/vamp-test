@@ -9,9 +9,9 @@ class Poll[A](body: => A) {
 
 
 /**
-  * Polling a resource without DDOS-ing it
-  * Warning: Uses a blocking Thread.sleep call
-  */
+ * Polling a resource without DDOS-ing it
+ * Warning: Uses a blocking Thread.sleep call
+ */
 object Poll {
   def apply[A](body: => A) = new Poll({
     Thread.sleep(200L)

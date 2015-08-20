@@ -1,11 +1,12 @@
 package io.vamp.test.pulse
 
 import io.vamp.pulse.model.{EventQuery, Event}
+import io.vamp.test.common.FileAccess
+import io.vamp.test.json.PulseJsonFormatsProvider
 import org.json4s.native.JsonMethods._
 import org.scalatest.tagobjects.Retryable
 import org.scalatest.time.{Millis, Span}
 import org.scalatest._
-import traits.{PulseJsonFormatsProvider, LocalPulseClientProvider, FileAccess}
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.language.postfixOps
