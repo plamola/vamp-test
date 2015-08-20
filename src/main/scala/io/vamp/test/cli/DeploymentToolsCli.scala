@@ -8,9 +8,7 @@ import traits.YamlUtils
 import scala.language.postfixOps
 
 
-trait DeploymentToolsCli extends DeploymentTools with CliTools with YamlUtils {
-
-  override def interfaceDescription: String = "CLI"
+trait DeploymentToolsCli extends DeploymentTools with CliInterface with YamlUtils {
 
   override def getDeploymentbyName(name: String): Option[Deployment] = {
     try {
@@ -67,16 +65,6 @@ trait DeploymentToolsCli extends DeploymentTools with CliTools with YamlUtils {
     }  catch {
       case e: RuntimeException =>List.empty
     }
-
-
-//
-//  sendAndWaitYaml(request = s"GET$url/api/v1/deployments") match {
-//    case Some(deploymentsString) =>
-//      yamlArrayListToList(deploymentsString).map(deployment=> DeploymentReader.read(deployment))
-//    case None => List.empty
-//  }
-
-
 
 
 }

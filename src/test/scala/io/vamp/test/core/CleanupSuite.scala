@@ -14,9 +14,11 @@ class CleanupSuite extends FeatureSpec with CleanCoreEnvironmentRestAPI {
       info(s"There are ${getAllDeployments.size} deployments to remove")
 
       removeAllDeployments()
-      assert(getAllDeployments.size == 0 , "Still some deployments left")
+      assert(getAllDeployments.isEmpty, "Still some deployments left")
     }
+
   }
 
 
+  
 }

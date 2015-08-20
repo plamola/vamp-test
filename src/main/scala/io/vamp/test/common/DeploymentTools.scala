@@ -3,7 +3,7 @@ package io.vamp.test.common
 import io.vamp.common.http.RestClient
 import io.vamp.core.model.artifact.{Blueprint, Deployment, DeploymentService}
 import io.vamp.test.model.DeployableApp
-import traits.{ConfigProvider, RestSupport}
+import traits.ConfigProvider
 
 import scala.concurrent.ExecutionContext.Implicits._
 import scala.concurrent.{Await, ExecutionContext, Future}
@@ -11,15 +11,13 @@ import scala.language.postfixOps
 import scala.concurrent.duration._
 
 
-trait DeploymentTools extends RestSupport with ConfigProvider {
+trait DeploymentTools extends ConfigProvider {
 
   implicit def executionContext: ExecutionContext = {
     global
   }
 
-  implicit val host: String = config.getString("endpoints.router.host")
-
-  def interfaceDescription: String
+  val host: String = config.getString("endpoints.router.host")
 
   def getDeploymentbyName(name: String): Option[Deployment]
 

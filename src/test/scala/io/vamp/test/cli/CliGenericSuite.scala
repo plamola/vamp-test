@@ -2,19 +2,18 @@ package io.vamp.test.cli
 
 import org.scalatest._
 import io.vamp.test.pulse.CleanableTest
-import traits.{ConfigProvider, FileAccess}
+import traits.FileAccess
 
 import scala.language.postfixOps
 
 
-class CliGenericSuite extends FlatSpec with CliTools with ConfigProvider with Matchers with FileAccess with Retries {
+class CliGenericSuite extends FlatSpec with CliInterface with Matchers with FileAccess with Retries {
 
-  val cliVersion: String = config.getString("versions.cli")
 
   // version
   it should "return the correct version number" taggedAs CleanableTest in {
     val res = execCommand("version")
-    res shouldEqual s"CLI version: $cliVersion\n"
+    res shouldEqual s"CLI version: $version\n"
   }
 
   // info

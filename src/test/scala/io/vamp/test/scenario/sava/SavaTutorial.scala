@@ -1,10 +1,10 @@
 package io.vamp.test.scenario.sava
 
 
-import io.vamp.test.common.DeploymentTest
+import io.vamp.test.common.{VampInterface, DeploymentTest}
 import io.vamp.test.model.Browsers
 
-trait SavaTutorial extends DeploymentTest {
+trait SavaTutorial extends DeploymentTest with VampInterface {
 
   feature("The user can run through the example on the vamp.io website") {
     info(s"I will be using the $interfaceDescription")

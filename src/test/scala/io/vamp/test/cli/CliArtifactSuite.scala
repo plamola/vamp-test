@@ -5,7 +5,7 @@ import traits.{ConfigProvider, FileAccess}
 
 
 
-class CliArtifactSuite extends FlatSpec with CliTools with ConfigProvider with Matchers with FileAccess with Retries {
+class CliArtifactSuite extends FlatSpec with CliInterface with ConfigProvider with Matchers with FileAccess with Retries {
 
 
   // TODO generate

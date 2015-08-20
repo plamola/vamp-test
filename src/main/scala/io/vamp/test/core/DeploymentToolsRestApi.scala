@@ -7,9 +7,8 @@ import traits.YamlUtils
 
 import scala.language.postfixOps
 
-trait DeploymentToolsRestApi extends DeploymentTools with CoreTools with YamlUtils {
+trait DeploymentToolsRestApi extends DeploymentTools with CoreInterface with YamlUtils {
 
-  override def interfaceDescription : String = "Rest API"
 
   override def getDeploymentbyName(name: String): Option[Deployment] = sendAndWaitYaml(request = s"GET $url/api/v1/deployments/$name") match {
     case Some(deployment) => Some(DeploymentReader.read(deployment))

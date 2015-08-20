@@ -1,8 +1,5 @@
 package io.vamp.test.pulse
 
-
-
-
 import io.vamp.pulse.model.{EventQuery, Event}
 
 import org.json4s.native.JsonMethods._
