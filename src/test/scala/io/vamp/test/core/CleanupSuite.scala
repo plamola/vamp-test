@@ -1,6 +1,6 @@
 package io.vamp.test.core
 
-import io.vamp.core.model.artifact.{Filter, Artifact, Blueprint, Breed}
+import io.vamp.core.model.artifact._
 import io.vamp.test.core.yaml._
 import org.scalatest.FeatureSpec
 
@@ -19,9 +19,10 @@ class CleanupSuite extends FeatureSpec with CleanCoreEnvironmentRestAPI {
 
     cleanupArtifact[Blueprint](new BlueprintOperations)
     cleanupArtifact[Breed](new BreedOperations)
+    cleanupArtifact[Escalation](new EscalationOperations)
     cleanupArtifact[Filter](new FilterOperations)
-    //TODO Add other artifacts
-
+    cleanupArtifact[Scale](new ScaleOperations)
+    cleanupArtifact[Sla](new SlaOperations)
   }
 
 
@@ -29,9 +30,8 @@ class CleanupSuite extends FeatureSpec with CleanCoreEnvironmentRestAPI {
     scenario(s"Removing all ${bp.endpointName}") {
       bp.getAll.size match {
         case 0 => info("Nothing to remove")
-
         case nr =>
-          info(s"REmoving $nr ${bp.endpointName}")
+          info(s"Removing $nr ${bp.endpointName}")
           bp.deleteAll()
           assert(bp.getAll.isEmpty, s"Still some ${bp.endpointName} left")
       }
