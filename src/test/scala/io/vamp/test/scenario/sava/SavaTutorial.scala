@@ -2,22 +2,23 @@ package io.vamp.test.scenario.sava
 
 
 import io.vamp.test.common.{VampInterface, DeploymentTest}
+import io.vamp.test.core.CleanupCoreDb
 import io.vamp.test.model.Browsers
 
-trait SavaTutorial extends DeploymentTest with VampInterface {
+trait SavaTutorial extends DeploymentTest with VampInterface with CleanupCoreDb {
 
   feature("The user can run through the example on the vamp.io website") {
     info(s"I will be using the $interfaceDescription")
 
     // STEP 1
-    scenario("Deploying your first blueprint") {
+    scenario("1. Deploying your first blueprint") {
       val deploymentName = performDeployment(SavaTutorialFixtures.mySava1_0)
       validateDeployment(SavaTutorialFixtures.mySava1_0, deploymentName)
       undeployAndValidate(SavaTutorialFixtures.mySava1_0, deploymentName)
     }
 
     // STEP 2
-    scenario("Doing a canary release") {
+    scenario("2. Doing a canary release") {
       val deploymentName = performDeployment(SavaTutorialFixtures.mySava1_0)
       validateDeployment(SavaTutorialFixtures.mySava1_0, deploymentName)
 
@@ -42,11 +43,16 @@ trait SavaTutorial extends DeploymentTest with VampInterface {
     }
 
     // STEP 3
-    scenario("Splitting the monolith into services") {
+    scenario("3. Splitting the monolith into services") {
       val deploymentNameSava11 = performDeployment(SavaTutorialFixtures.mySava1_1)
       validateDeployment(SavaTutorialFixtures.mySava1_1, deploymentNameSava11)
       undeployAndValidate(SavaTutorialFixtures.mySava1_1, deploymentNameSava11)
     }
+
+
+    // STEP 4
+    //TODO implement step 4
+    //scenario("4. Merging a changed topology") {}
 
   }
 
