@@ -9,18 +9,26 @@ import org.scalatest.{BeforeAndAfterAll, FeatureSpec}
 trait CleanupCoreDb extends FeatureSpec with CleanCoreEnvironment with BeforeAndAfterAll {
 
 
+  /** *
+    * Executed before all tests that extend this trait
+    */
   override protected def beforeAll(): Unit = {
     cleanDeploymentsAndArtifacts()
     super.beforeAll()
   }
 
-
+  /** *
+    * Executed after all tests that extend this trait
+    */
   override protected def afterAll(): Unit = {
+    // Cleanup of artifacts not done after testing, since it won't allow for inspection of artifacts of failed tests
     //cleanDeploymentsAndArtifacts()
     super.afterAll()
   }
 
-
+  /** *
+    * Remove all static artifacts
+    */
   def cleanDeploymentsAndArtifacts() {
     removeDeployments()
     cleanupArtifact[Blueprint](new BlueprintOperations)
@@ -29,9 +37,11 @@ trait CleanupCoreDb extends FeatureSpec with CleanCoreEnvironment with BeforeAnd
     cleanupArtifact[Filter](new FilterOperations)
     cleanupArtifact[Scale](new ScaleOperations)
     cleanupArtifact[Sla](new SlaOperations)
-
   }
 
+  /** *
+    * Remove all dynamic artifacts (deployments)
+    */
   private def removeDeployments(): Unit = {
     if (getAllDeployments.nonEmpty) {
       info(s"Removing ${getAllDeployments.size} deployments")
@@ -40,13 +50,18 @@ trait CleanupCoreDb extends FeatureSpec with CleanCoreEnvironment with BeforeAnd
     }
   }
 
-  private def cleanupArtifact[T <: Artifact](bp: ArtifactOperations[T]): Unit = {
-    bp.getAll.size match {
+  /** *
+    * Remove all artifacts of specified type
+    * @param artifactOperations - Artifact operations handler
+    * @tparam T       - Type of the artifact
+    */
+  private def cleanupArtifact[T <: Artifact](artifactOperations: ArtifactOperations[T]): Unit = {
+    artifactOperations.getAll.size match {
       case 0 => // Nothing to do
       case nr =>
-        info(s"Removing $nr ${bp.endpointName}")
-        bp.deleteAll()
-        assert(bp.getAll.isEmpty, s"Still some ${bp.endpointName} left")
+        info(s"Removing $nr ${artifactOperations.endpointName}")
+        artifactOperations.deleteAll()
+        assert(artifactOperations.getAll.isEmpty, s"Still some ${artifactOperations.endpointName} left")
 
     }
   }
