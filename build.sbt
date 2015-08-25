@@ -21,13 +21,13 @@ libraryDependencies ++= {
     "io.spray"            %%  "spray-client"    % sprayV,
     "io.spray"            %%  "spray-json"    % "1.3.1",
     "com.typesafe.akka"   %%  "akka-actor"    % akkaV,
-    "org.scalatest" %% "scalatest" % "2.2.5" % "test",
+    "org.scalatest" %% "scalatest" % "2.2.5",
     "org.slf4j" % "slf4j-api" % slf4jVersion,
     "ch.qos.logback" % "logback-classic" % logbackVersion,
     "com.typesafe" % "config" % "1.2.1",
-    "io.vamp" %% "common" % "0.7.9",
-    "io.vamp" %% "core-model" % "0.7.9",
-    "io.vamp" %% "pulse-server" % "0.7.9"
+    "io.vamp" %% "common" % "0.7.9-dev.7dcadf5",
+    "io.vamp" %% "core-model" % "0.7.9-dev.de08aaa",
+    "io.vamp" %% "pulse-server" % "0.7.9-dev.7174fd3"
   )
 }
 

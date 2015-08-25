@@ -7,6 +7,7 @@ class Poll[A](body: => A) {
   }
 }
 
+//TODO Replace this with Scalatest's Eventually
 
 /**
  * Polling a resource without DDOS-ing it

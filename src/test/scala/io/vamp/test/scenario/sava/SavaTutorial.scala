@@ -52,7 +52,7 @@ trait SavaTutorial extends DeploymentTest with VampInterface with CleanupCoreDb 
 
     // STEP 4
     //TODO implement step 4
-    //scenario("4. Merging a changed topology") {}
+    scenario("4. Merging a changed topology") (pending)
 
   }
 

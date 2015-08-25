@@ -2,11 +2,11 @@ package io.vamp.test.common
 
 import io.vamp.core.model.artifact.Deployment
 import io.vamp.core.model.reader.BlueprintReader
-import io.vamp.test.model.{Frontend, DeployableApp, BrowserDefinition}
+import io.vamp.test.model.{BrowserDefinition, DeployableApp, Frontend}
 import org.scalatest.Matchers
 
-import scala.concurrent.Await
 import scala.concurrent.duration._
+import scala.concurrent.{Await, Future}
 import scala.language.postfixOps
 
 
@@ -28,7 +28,7 @@ trait DeploymentTest extends VampTest with DeploymentTools with Matchers {
     * @param deploymentName - Name of the existing deployment
     * @return
     */
-  def performDeploymentUpdate(myApp: DeployableApp, deploymentName: String) : Option[Deployment] = {
+  def performDeploymentUpdate(myApp: DeployableApp, deploymentName: String): Option[Deployment] = {
     info(s"Updating deployment to [${myApp.name}]")
     deploymentUpdate(BlueprintReader.read(readFile(myApp.filename)), deploymentName)
   }
@@ -43,9 +43,29 @@ trait DeploymentTest extends VampTest with DeploymentTools with Matchers {
 
     info(s"Confirm [${myApp.name}] has ${myApp.nrOfServices} running service(s)")
     assert(Await.result(getAndVerifyDeploymentStates(deploymentName, myApp), myApp.deploymentWaitTime seconds), "incorrect number of services are running")
-
-    testWebResponseAny(myApp)
+    //TODO fix this
+    Thread.sleep(2000)
+    assert(Await.result(doesApplicationRespond(myApp), myApp.deploymentWaitTime seconds), s"No valid response from application within ${myApp.deploymentWaitTime} seconds")
   }
+
+
+  /** *
+    * try to get a valid response from the application
+    * @param myApp - Application description
+    * @return
+    */
+  def doesApplicationRespond(myApp: DeployableApp): Future[Boolean] = Future {
+    Poll {
+      try {
+        getApplicationPage(myApp)
+      }
+      catch {
+        case e: Throwable => ""
+      }
+    } until (page => myApp.frontends.map(frontend => page.indexOf(frontend.textRequiredInResponse) > 1).exists(value => true))
+    true
+  }
+
 
   /** *
     * Undeploy an deployment and verify it is no longer answering at the endpoint
@@ -108,14 +128,18 @@ trait DeploymentTest extends VampTest with DeploymentTools with Matchers {
     info(s"Testing weight distribution, doing a $nrOfRequests requests, accepting a deviation of $maxDeviationPct%")
     var identifiedResponses: List[Frontend] = List.empty
     1 to nrOfRequests foreach { n =>
-      val page = getApplicationPage(myApp, headers)
-      myApp.frontends.foreach { frontEnd =>
-        if (page.indexOf(frontEnd.textRequiredInResponse) > 1) identifiedResponses = identifiedResponses ++ List(frontEnd)
+      try {
+        val page = getApplicationPage(myApp, headers)
+        myApp.frontends.foreach { frontEnd =>
+          if (page.indexOf(frontEnd.textRequiredInResponse) > 1) identifiedResponses = identifiedResponses ++ List(frontEnd)
+        }
+      } catch {
+        case e: Throwable => /*ignoring for now */
       }
     }
 
     // Make sure all requests have been identified to originate from a valid frontend
-    assert(identifiedResponses.size == nrOfRequests, s"Could not uniquely map each request to a frontend. Requests:  $nrOfRequests / indentified: ${identifiedResponses.size}")
+    assert(identifiedResponses.size == nrOfRequests, s"Reason: Could not uniquely map each request to a frontend. Requests:  $nrOfRequests / identified: ${identifiedResponses.size}")
 
     // Calculate totals & percentage for each front end
     val responses: Seq[ResponseCount] = for {
