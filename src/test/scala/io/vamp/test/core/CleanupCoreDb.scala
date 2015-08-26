@@ -13,6 +13,7 @@ trait CleanupCoreDb extends FeatureSpec with CleanCoreEnvironment with BeforeAnd
     * Executed before all tests that extend this trait
     */
   override protected def beforeAll(): Unit = {
+    info("Pre test cleanup")
     cleanDeploymentsAndArtifacts()
     super.beforeAll()
   }
@@ -22,7 +23,6 @@ trait CleanupCoreDb extends FeatureSpec with CleanCoreEnvironment with BeforeAnd
     */
   override protected def afterAll(): Unit = {
     // Cleanup of artifacts not done after testing, since it won't allow for inspection of artifacts of failed tests
-    //cleanDeploymentsAndArtifacts()
     super.afterAll()
   }
 
@@ -44,7 +44,7 @@ trait CleanupCoreDb extends FeatureSpec with CleanCoreEnvironment with BeforeAnd
     */
   private def removeDeployments(): Unit = {
     if (getAllDeployments.nonEmpty) {
-      info(s"Removing ${getAllDeployments.size} deployments")
+      info(s"- Removing ${getAllDeployments.size} deployments")
       removeAllDeployments()
       assert(getAllDeployments.isEmpty, "Still some left")
     }
@@ -59,7 +59,7 @@ trait CleanupCoreDb extends FeatureSpec with CleanCoreEnvironment with BeforeAnd
     artifactOperations.getAll.size match {
       case 0 => // Nothing to do
       case nr =>
-        info(s"Removing $nr ${artifactOperations.endpointName}")
+        info(s"- Removing $nr ${artifactOperations.endpointName}")
         artifactOperations.deleteAll()
         assert(artifactOperations.getAll.isEmpty, s"Still some ${artifactOperations.endpointName} left")
 
