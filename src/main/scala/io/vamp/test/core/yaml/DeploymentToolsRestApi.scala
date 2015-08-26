@@ -26,7 +26,7 @@ trait DeploymentToolsRestApi extends DeploymentTools with CoreYamlInterface {
     case None => None
   }
 
-  override def undeploy(deployment: Deployment): Option[Deployment] = sendAndWaitYaml(request = s"DELETE $endpoint/${deployment.name}", Some(artifactToYaml(deployment))) match {
+  override def undeploy(blueprint: Blueprint, deploymentName: String): Option[Deployment] = sendAndWaitYaml(request = s"DELETE $endpoint/$deploymentName", Some(artifactToYaml(blueprint))) match {
     case Some(updatedDeployment) => Some(DeploymentReader.read(updatedDeployment))
     case None => None
   }
@@ -35,7 +35,6 @@ trait DeploymentToolsRestApi extends DeploymentTools with CoreYamlInterface {
     case Some(deploymentsString) => yamlArrayListToList(deploymentsString).map(deployment => DeploymentReader.read(deployment))
     case None => List.empty
   }
-
 
 }
 

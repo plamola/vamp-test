@@ -35,6 +35,7 @@ trait DeploymentToolsCli extends DeploymentTools with CliYamlInterface with Yaml
     }
 
   override def deploymentUpdate(blueprint: Blueprint, deploymentName: String): Option[Deployment] =
+  //TODO Fails when name in blueprint is different thant deploymentName, should update artifact
     try {
       withTemporaryFile(artifactToYaml(blueprint)) { tmpFile =>
         Some(DeploymentReader.read(execCommand(
@@ -46,12 +47,13 @@ trait DeploymentToolsCli extends DeploymentTools with CliYamlInterface with Yaml
       case e: RuntimeException => None
     }
 
-  override def undeploy(deployment: Deployment): Option[Deployment] =
+  override def undeploy(blueprint: Blueprint, deploymentName: String): Option[Deployment] =
+  //TODO this does not support partial undeploys
     try {
-      Some(DeploymentReader.read(execCommand(
-        command = "undeploy",
-        arguments = Some(deployment.name))
-      ))
+        Some(DeploymentReader.read(execCommand(
+          command = "undeploy",
+          arguments = Some(s"$deploymentName"))
+        ))
     } catch {
       case e: RuntimeException => None
     }

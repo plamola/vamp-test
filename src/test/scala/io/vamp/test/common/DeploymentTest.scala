@@ -1,6 +1,6 @@
 package io.vamp.test.common
 
-import io.vamp.core.model.artifact.Deployment
+import io.vamp.core.model.artifact.{Blueprint, DefaultBlueprint, Deployment}
 import io.vamp.core.model.reader.BlueprintReader
 import io.vamp.test.model.{BrowserDefinition, DeployableApp, Frontend}
 import org.scalatest.Matchers
@@ -19,8 +19,13 @@ trait DeploymentTest extends VampTest with DeploymentTools with Matchers {
     */
   def performDeployment(myApp: DeployableApp): String = {
     info(s"Deploying [${myApp.name}]")
-    deploy(BlueprintReader.read(readFile(myApp.filename))).get.name
+    deploy(BlueprintReader.read(readFile(myApp.filename))) match {
+      case Some(deployment) => deployment.name
+      case None => fail("Deployment failed")
+        ""
+    }
   }
+
 
   /** *
     * Update an existing deployment
@@ -30,8 +35,26 @@ trait DeploymentTest extends VampTest with DeploymentTools with Matchers {
     */
   def performDeploymentUpdate(myApp: DeployableApp, deploymentName: String): Option[Deployment] = {
     info(s"Updating deployment to [${myApp.name}]")
-    deploymentUpdate(BlueprintReader.read(readFile(myApp.filename)), deploymentName)
+    BlueprintReader.read(readFile(myApp.filename)) match {
+      case blueprint: DefaultBlueprint => deploymentUpdate(blueprint.copy(name = deploymentName), deploymentName)
+      case blueprint : Blueprint => deploymentUpdate(blueprint, deploymentName)
+    }
   }
+
+
+  /** *
+    * Delete part of an existing deployment
+    * @param myApp - Application description
+    * @param deploymentName - Name of the existing deployment
+    * @return
+    */
+  def performDeploymentDelete(myApp: DeployableApp, deploymentName: String): Option[Deployment] = {
+    info(s"Removing part of deployment with [${myApp.name}]")
+    BlueprintReader.read(readFile(myApp.filename)) match {
+      case blueprint: DefaultBlueprint => undeploy(blueprint.copy(name = deploymentName), deploymentName)
+    }
+  }
+
 
   /** *
     * Check if all the services are running & the application responds at the assigned endpoint
@@ -42,10 +65,21 @@ trait DeploymentTest extends VampTest with DeploymentTools with Matchers {
     assert(!deploymentName.isEmpty, "Does not have a valid deployment name")
 
     info(s"Confirm [${myApp.name}] has ${myApp.nrOfServices} running service(s)")
-    assert(Await.result(getAndVerifyDeploymentStates(deploymentName, myApp), myApp.deploymentWaitTime seconds), "incorrect number of services are running")
-    //TODO fix this
-    Thread.sleep(2000)
-    assert(Await.result(doesApplicationRespond(myApp), myApp.deploymentWaitTime seconds), s"No valid response from application within ${myApp.deploymentWaitTime} seconds")
+    try {
+      assert(Await.result(getAndVerifyDeploymentStates(deploymentName, myApp), myApp.deploymentWaitTime seconds), "incorrect number of services are running")
+    } catch {
+      case e: Throwable =>
+        fail(s"Could not detect services: ${e.getMessage}")
+    }
+    info(s"Confirm [${myApp.name}] responds correctly (Routing to app works)")
+    try {
+      //TODO this Thread sleep is blocking
+      Thread.sleep(2000)
+      assert(Await.result(doesApplicationRespond(myApp), myApp.deploymentWaitTime seconds), s"No valid response from application within ${myApp.deploymentWaitTime} seconds")
+    } catch {
+      case e: Throwable =>
+        fail(s"No response from application: ${e.getMessage}")
+    }
   }
 
 
@@ -77,7 +111,7 @@ trait DeploymentTest extends VampTest with DeploymentTools with Matchers {
     assert(deploymentOption.isDefined, "Deployment not found")
 
     info(s"Confirm [${myApp.name}] can be undeployed")
-    assert(undeploy(deploymentOption.get).isDefined, "Incorrect response from undeploy")
+    assert(undeploy(deploymentOption.get, deploymentName).isDefined, "Incorrect response from undeploy")
 
     info(s"Confirm [${myApp.name}] has been removed from vamp")
     assert(Await.result(verifyDeploymentIsRemoved(deploymentName), myApp.undeployWaitTime seconds), "still there")
@@ -125,16 +159,17 @@ trait DeploymentTest extends VampTest with DeploymentTools with Matchers {
     * @param headers             - Optional headers to included, for example cookies or user-agent
     */
   def testWeightDistribution(myApp: DeployableApp, nrOfRequests: Int, maxDeviationPct: Int, headers: List[(String, String)] = List.empty): Unit = {
-    info(s"Testing weight distribution, doing a $nrOfRequests requests, accepting a deviation of $maxDeviationPct%")
+    info(s"Testing weight distribution of [${myApp.name}], doing a $nrOfRequests requests, accepting a deviation of $maxDeviationPct%")
     var identifiedResponses: List[Frontend] = List.empty
     1 to nrOfRequests foreach { n =>
       try {
         val page = getApplicationPage(myApp, headers)
+        //info(page)
         myApp.frontends.foreach { frontEnd =>
           if (page.indexOf(frontEnd.textRequiredInResponse) > 1) identifiedResponses = identifiedResponses ++ List(frontEnd)
         }
       } catch {
-        case e: Throwable => /*ignoring for now */
+        case e: Throwable => alert(s"While checking weight: ${e.getMessage}") /*ignoring for now */
       }
     }
 

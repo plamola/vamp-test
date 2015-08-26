@@ -26,13 +26,13 @@ trait DeploymentTools extends ConfigProvider {
 
   def deploymentUpdate(blueprint: Blueprint, deploymentName: String): Option[Deployment]
 
-  def undeploy(deployment: Deployment): Option[Deployment]
-
+  def undeploy(deployment: Blueprint, deploymentName: String): Option[Deployment]
 
   def getAndVerifyDeploymentStates(deploymentName: String, myApp: DeployableApp): Future[Boolean] = Future {
     Poll {
       getDeploymentbyName(deploymentName)
-    } until (runningDeploymentOption => runningDeploymentOption.get.isInstanceOf[Deployment] &&
+    } until (runningDeploymentOption => runningDeploymentOption.isDefined &&
+      runningDeploymentOption.get.isInstanceOf[Deployment] &&
       allDeploymentServiceStates(runningDeploymentOption.get).size == myApp.nrOfServices &&
       areAllServicesDeployed(deployment = runningDeploymentOption.get)
       )
@@ -64,7 +64,7 @@ trait DeploymentTools extends ConfigProvider {
 
   def removeAllDeployments(maxWaitTime: Int = 60) {
     getAllDeployments.foreach { deployment =>
-      undeploy(deployment)
+      undeploy(deployment, deployment.name)
       // Assume every deployment can be removed within 60 seconds
       assert(Await.result(verifyDeploymentIsRemoved(deployment.name), maxWaitTime seconds), s"Deployment ${deployment.name} could not be removed within reasonable time")
     }
