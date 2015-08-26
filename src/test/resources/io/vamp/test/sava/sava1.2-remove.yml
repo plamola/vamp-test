@@ -1,0 +1,15 @@
+---
+name: [REPLACE-ME]
+clusters:
+  sava:
+    services:
+      breed:
+        reference: sava-frontend:1.2.0
+  backend1:
+    services:
+      breed:
+        reference: sava-backend1:1.2.0
+  backend2:
+    services:
+      breed:
+        reference: sava-backend2:1.2.0

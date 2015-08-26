@@ -1,0 +1,30 @@
+---
+name: sava:1.3
+clusters:
+  sava:
+    services:
+      breed:
+        name: sava-frontend:1.3.0
+        deployable: magneticio/sava-frontend:1.3.0
+        ports:
+          port: 8080/http
+        environment_variables:
+          BACKEND: http://$backend.host:$backend.ports.port/api/message
+        dependencies:
+          backend: sava-backend:1.3.0
+      scale:
+        cpu: 0.2
+        memory: 256
+        instances: 1
+  backend:
+    services:
+      breed:
+        name: sava-backend:1.3.0
+        deployable: magneticio/sava-backend:1.3.0
+        ports:
+          port: 8080/http
+      scale:
+        cpu: 0.2
+        memory: 256
+        instances: 1
+

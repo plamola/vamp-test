@@ -1,0 +1,26 @@
+---
+name: [REPLACE-ME]
+clusters:
+  backend1:
+    services:
+    - breed:
+        reference: sava-backend1:1.2.0
+      routing:
+        weight: 0
+  backend2:
+    services:
+    - breed:
+        reference: sava-backend2:1.2.0
+      routing:
+        weight: 0
+  sava:
+    services:
+    - breed:
+        reference: sava-frontend:1.3.0
+      routing:
+        weight: 100
+    - breed:
+        reference: sava-frontend:1.2.0
+      routing:
+        weight: 0
+

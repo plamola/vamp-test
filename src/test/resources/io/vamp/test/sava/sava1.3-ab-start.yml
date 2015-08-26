@@ -1,0 +1,15 @@
+---
+name: [REPLACE-ME]
+clusters:
+  sava:
+    services:
+    - breed:
+        reference: sava-frontend:1.3.0
+      routing:
+        weight: 50
+        filters: []
+    - breed:
+        reference: sava-frontend:1.2.0
+      routing:
+        weight: 50
+        filters: []
