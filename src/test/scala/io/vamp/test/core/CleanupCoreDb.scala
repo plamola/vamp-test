@@ -1,7 +1,7 @@
 package io.vamp.test.core
 
 import io.vamp.core.model.artifact._
-import io.vamp.test.common.CleanCoreEnvironment
+import io.vamp.test.common._
 import io.vamp.test.core.yaml._
 import org.scalatest.{BeforeAndAfterAll, FeatureSpec}
 
@@ -31,12 +31,13 @@ trait CleanupCoreDb extends FeatureSpec with CleanCoreEnvironment with BeforeAnd
     */
   def cleanDeploymentsAndArtifacts() {
     removeDeployments()
-    cleanupArtifact[Blueprint](new BlueprintOperations)
-    cleanupArtifact[Breed](new BreedOperations)
-    cleanupArtifact[Escalation](new EscalationOperations)
-    cleanupArtifact[Filter](new FilterOperations)
-    cleanupArtifact[Scale](new ScaleOperations)
-    cleanupArtifact[Sla](new SlaOperations)
+    //TODO extract the ArtifactYamlInterface
+    cleanupArtifact[Blueprint](new BlueprintOperations(new ArtifactYamlInterface[Blueprint]("blueprints")))
+    cleanupArtifact[Breed](new BreedOperations(new ArtifactYamlInterface[Breed]("breeds")))
+    cleanupArtifact[Escalation](new EscalationOperations(new ArtifactYamlInterface[Escalation]("escalations")))
+    cleanupArtifact[Filter](new FilterOperations(new ArtifactYamlInterface[Filter]("filters")))
+    cleanupArtifact[Scale](new ScaleOperations(new ArtifactYamlInterface[Scale]("scales")))
+    cleanupArtifact[Sla](new SlaOperations(new ArtifactYamlInterface[Sla]("slas")))
   }
 
   /** *
@@ -59,9 +60,9 @@ trait CleanupCoreDb extends FeatureSpec with CleanCoreEnvironment with BeforeAnd
     artifactOperations.getAll.size match {
       case 0 => // Nothing to do
       case nr =>
-        info(s"- Removing $nr ${artifactOperations.endpointName}")
+        info(s"- Removing $nr ${artifactOperations.artifactType}")
         artifactOperations.deleteAll()
-        assert(artifactOperations.getAll.isEmpty, s"Still some ${artifactOperations.endpointName} left")
+        assert(artifactOperations.getAll.isEmpty, s"Still some ${artifactOperations.artifactType} left")
 
     }
   }

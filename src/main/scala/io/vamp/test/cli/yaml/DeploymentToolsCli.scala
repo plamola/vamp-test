@@ -35,7 +35,6 @@ trait DeploymentToolsCli extends DeploymentTools with CliYamlInterface with Yaml
     }
 
   override def deploymentUpdate(blueprint: Blueprint, deploymentName: String): Option[Deployment] =
-  //TODO Fails when name in blueprint is different thant deploymentName, should update artifact
     try {
       withTemporaryFile(artifactToYaml(blueprint)) { tmpFile =>
         Some(DeploymentReader.read(execCommand(
@@ -50,10 +49,10 @@ trait DeploymentToolsCli extends DeploymentTools with CliYamlInterface with Yaml
   override def undeploy(blueprint: Blueprint, deploymentName: String): Option[Deployment] =
   //TODO this does not support partial undeploys
     try {
-        Some(DeploymentReader.read(execCommand(
-          command = "undeploy",
-          arguments = Some(s"$deploymentName"))
-        ))
+      Some(DeploymentReader.read(execCommand(
+        command = "undeploy",
+        arguments = Some(s"$deploymentName"))
+      ))
     } catch {
       case e: RuntimeException => None
     }
@@ -61,8 +60,20 @@ trait DeploymentToolsCli extends DeploymentTools with CliYamlInterface with Yaml
 
   override def getAllDeployments: List[Deployment] =
     try {
-      //TODO implement this
-      List.empty
+      val listOutput = execCommand(
+        command = "list",
+        arguments = Some("deployments")
+      )
+      val lines: Array[String] = listOutput.split("\n")
+      if (lines.length < 1) {
+        List.empty
+      } else {
+        val deployments = for {
+          line <- lines.tail
+          id = line.split(" ").head
+        } yield getDeploymentbyName(id)
+        deployments.flatten.toList
+      }
     } catch {
       case e: RuntimeException => List.empty
     }
