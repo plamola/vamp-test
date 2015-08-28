@@ -1,11 +1,9 @@
 package io.vamp.test.cli.yaml
 
-import io.vamp.test.common.{ConfigProvider, FileAccess}
+import io.vamp.test.common.{ ConfigProvider, FileAccess }
 import org.scalatest._
 
-
 class CliArtifactSuite extends FlatSpec with CliYamlInterface with ConfigProvider with Matchers with FileAccess with Retries {
-
 
   // TODO generate
   // TODO create
@@ -13,7 +11,5 @@ class CliArtifactSuite extends FlatSpec with CliYamlInterface with ConfigProvide
   // TODO list
   // TODO remove
   // TODO update
-
-
 
 }

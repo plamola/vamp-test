@@ -1,3 +1,5 @@
+import scalariform.formatter.preferences._
+
 version       := "0.1"
 
 resolvers in ThisBuild += Resolver.url("magnetic-io ivy resolver", url("http://dl.bintray.com/magnetic-io/vamp"))(Resolver.ivyStylePatterns)
@@ -32,6 +34,13 @@ libraryDependencies ++= {
 }
 
 
+scalariformSettings ++ Seq(ScalariformKeys.preferences := ScalariformKeys.preferences.value
+  .setPreference(AlignParameters, true)
+  .setPreference(AlignSingleLineCaseStatements, true)
+  .setPreference(DoubleIndentClassDeclaration, true)
+  .setPreference(PreserveDanglingCloseParenthesis, true)
+  .setPreference(RewriteArrowSymbols, true))
+
 parallelExecution in Test := false
 
 scalaVersion  := "2.11.7"
@@ -42,6 +51,5 @@ javacOptions ++= Seq("-encoding", "UTF-8")
 
 scalacOptions in ThisBuild ++= Seq(Opts.compile.deprecation, Opts.compile.unchecked) ++
   Seq("-Ywarn-unused-import", "-Ywarn-unused", "-Xlint", "-feature")
-
 
 

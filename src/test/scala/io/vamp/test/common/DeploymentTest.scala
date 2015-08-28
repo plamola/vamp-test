@@ -1,66 +1,67 @@
 package io.vamp.test.common
 
-import io.vamp.core.model.artifact.{Blueprint, DefaultBlueprint, Deployment}
+import io.vamp.core.model.artifact.{ Blueprint, DefaultBlueprint, Deployment }
 import io.vamp.core.model.reader.BlueprintReader
-import io.vamp.test.model.{BrowserDefinition, DeployableApp, Frontend}
+import io.vamp.test.model.{ BrowserDefinition, DeployableApp, Frontend }
 import org.scalatest.Matchers
 
 import scala.concurrent.duration._
-import scala.concurrent.{Await, Future}
+import scala.concurrent.{ Await, Future }
 import scala.language.postfixOps
-
 
 trait DeploymentTest extends VampTest with DeploymentTools with Matchers {
 
-  /** *
-    * Deploy a blueprint
-    * @param myApp - Application description
-    * @return name of the deployment
-    */
+  /**
+   * *
+   * Deploy a blueprint
+   * @param myApp - Application description
+   * @return name of the deployment
+   */
   def performDeployment(myApp: DeployableApp): String = {
     info(s"Deploying [${myApp.name}]")
     deploy(BlueprintReader.read(readFile(myApp.filename))) match {
-      case Some(deployment) => deployment.name
-      case None => fail("Deployment failed")
+      case Some(deployment) ⇒ deployment.name
+      case None ⇒
+        fail("Deployment failed")
         ""
     }
   }
 
-
-  /** *
-    * Update an existing deployment
-    * @param myApp - Application description
-    * @param deploymentName - Name of the existing deployment
-    * @return
-    */
+  /**
+   * *
+   * Update an existing deployment
+   * @param myApp - Application description
+   * @param deploymentName - Name of the existing deployment
+   * @return
+   */
   def performDeploymentUpdate(myApp: DeployableApp, deploymentName: String): Option[Deployment] = {
     info(s"Updating deployment to [${myApp.name}]")
     BlueprintReader.read(readFile(myApp.filename)) match {
-      case blueprint: DefaultBlueprint => deploymentUpdate(blueprint.copy(name = deploymentName), deploymentName)
-      case blueprint : Blueprint => deploymentUpdate(blueprint, deploymentName)
+      case blueprint: DefaultBlueprint ⇒ deploymentUpdate(blueprint.copy(name = deploymentName), deploymentName)
+      case blueprint: Blueprint        ⇒ deploymentUpdate(blueprint, deploymentName)
     }
   }
 
-
-  /** *
-    * Delete part of an existing deployment
-    * @param myApp - Application description
-    * @param deploymentName - Name of the existing deployment
-    * @return
-    */
+  /**
+   * *
+   * Delete part of an existing deployment
+   * @param myApp - Application description
+   * @param deploymentName - Name of the existing deployment
+   * @return
+   */
   def performDeploymentDelete(myApp: DeployableApp, deploymentName: String): Option[Deployment] = {
     info(s"Removing part of deployment with [${myApp.name}]")
     BlueprintReader.read(readFile(myApp.filename)) match {
-      case blueprint: DefaultBlueprint => undeploy(blueprint.copy(name = deploymentName), deploymentName)
+      case blueprint: DefaultBlueprint ⇒ undeploy(blueprint.copy(name = deploymentName), deploymentName)
     }
   }
 
-
-  /** *
-    * Check if all the services are running & the application responds at the assigned endpoint
-    * @param myApp - Application description
-    * @param deploymentName - Name of the existing deployment
-    */
+  /**
+   * *
+   * Check if all the services are running & the application responds at the assigned endpoint
+   * @param myApp - Application description
+   * @param deploymentName - Name of the existing deployment
+   */
   def validateDeployment(myApp: DeployableApp, deploymentName: String) = {
     assert(!deploymentName.isEmpty, "Does not have a valid deployment name")
 
@@ -68,7 +69,7 @@ trait DeploymentTest extends VampTest with DeploymentTools with Matchers {
     try {
       assert(Await.result(getAndVerifyDeploymentStates(deploymentName, myApp), myApp.deploymentWaitTime seconds), "incorrect number of services are running")
     } catch {
-      case e: Throwable =>
+      case e: Throwable ⇒
         fail(s"Could not detect services: ${e.getMessage}")
     }
     info(s"Confirm [${myApp.name}] responds correctly (Routing to app works)")
@@ -77,35 +78,34 @@ trait DeploymentTest extends VampTest with DeploymentTools with Matchers {
       Thread.sleep(2000)
       assert(Await.result(doesApplicationRespond(myApp), myApp.deploymentWaitTime seconds), s"No valid response from application within ${myApp.deploymentWaitTime} seconds")
     } catch {
-      case e: Throwable =>
+      case e: Throwable ⇒
         fail(s"No response from application: ${e.getMessage}")
     }
   }
 
-
-  /** *
-    * try to get a valid response from the application
-    * @param myApp - Application description
-    * @return
-    */
+  /**
+   * *
+   * try to get a valid response from the application
+   * @param myApp - Application description
+   * @return
+   */
   def doesApplicationRespond(myApp: DeployableApp): Future[Boolean] = Future {
     Poll {
       try {
         getApplicationPage(myApp)
+      } catch {
+        case e: Throwable ⇒ ""
       }
-      catch {
-        case e: Throwable => ""
-      }
-    } until (page => myApp.frontends.map(frontend => page.indexOf(frontend.textRequiredInResponse) > 1).exists(value => true))
+    } until (page ⇒ myApp.frontends.map(frontend ⇒ page.indexOf(frontend.textRequiredInResponse) > 1).exists(value ⇒ true))
     true
   }
 
-
-  /** *
-    * Undeploy an deployment and verify it is no longer answering at the endpoint
-    * @param myApp  - Application description
-    * @param deploymentName  - Name of the existing deployment
-    */
+  /**
+   * *
+   * Undeploy an deployment and verify it is no longer answering at the endpoint
+   * @param myApp  - Application description
+   * @param deploymentName  - Name of the existing deployment
+   */
   def undeployAndValidate(myApp: DeployableApp, deploymentName: String) = {
     val deploymentOption: Option[Deployment] = getDeploymentbyName(deploymentName)
     assert(deploymentOption.isDefined, "Deployment not found")
@@ -120,56 +120,58 @@ trait DeploymentTest extends VampTest with DeploymentTools with Matchers {
       getApplicationPage(myApp)
       fail(s"Application [${myApp.name}] still running")
     } catch {
-      case e: java.util.concurrent.TimeoutException => // Timeout is acceptable
-      case e: java.util.concurrent.ExecutionException => // Connection refused is also acceptable
-      case e: Throwable => fail(s"Unexpected error: ${e.getMessage}")
+      case e: java.util.concurrent.TimeoutException   ⇒ // Timeout is acceptable
+      case e: java.util.concurrent.ExecutionException ⇒ // Connection refused is also acceptable
+      case e: Throwable                               ⇒ fail(s"Unexpected error: ${e.getMessage}")
     }
   }
 
-  /** *
-    * Check to see if any valid response is received at the endpoint
-    * @param myApp  - Application description
-    */
+  /**
+   * *
+   * Check to see if any valid response is received at the endpoint
+   * @param myApp  - Application description
+   */
   def testWebResponseAny(myApp: DeployableApp): Unit = {
     info(s"Confirm [${myApp.name}] responds correctly on ${appCheckUrl(myApp)}")
     val page = getApplicationPage(myApp)
-    assert(myApp.frontends.map(frontend => page.indexOf(frontend.textRequiredInResponse) > 1).exists(value => true), "Incorrect page content")
+    assert(myApp.frontends.map(frontend ⇒ page.indexOf(frontend.textRequiredInResponse) > 1).exists(value ⇒ true), "Incorrect page content")
   }
 
-  /** *
-    * Check to see if a specific endpoint is answering (browser specific)
-    * @param myApp    - Application description
-    * @param frontEnd - Frontend expected to respond
-    * @param browser  - Browser being used in the test (user-agent)
-    */
+  /**
+   * *
+   * Check to see if a specific endpoint is answering (browser specific)
+   * @param myApp    - Application description
+   * @param frontEnd - Frontend expected to respond
+   * @param browser  - Browser being used in the test (user-agent)
+   */
   def testWebResponseSpecific(myApp: DeployableApp, frontEnd: Frontend, browser: BrowserDefinition): Unit = {
     info(s"Confirm [${myApp.name}] responds correctly on ${appCheckUrl(myApp)} to ${browser.name}")
     val page = getApplicationPage(myApp, browser.headers)
     assert(page.indexOf(frontEnd.textRequiredInResponse) > 1, s"Incorrect page content. [$page] does not contain [${frontEnd.textRequiredInResponse}]")
   }
 
-
   case class ResponseCount(frontEnd: Frontend, replies: Int = 0, percentageOfTraffic: Int)
 
-  /** *
-    * Test if the weight (load) is distributed correctly over the front ends.
-    * @param myApp               - Description of the app
-    * @param nrOfRequests        - Number of requests to fire at the application
-    * @param maxDeviationPct     - Maximum deviation of the assigned weight (percentage)
-    * @param headers             - Optional headers to included, for example cookies or user-agent
-    */
+  /**
+   * *
+   * Test if the weight (load) is distributed correctly over the front ends.
+   * @param myApp               - Description of the app
+   * @param nrOfRequests        - Number of requests to fire at the application
+   * @param maxDeviationPct     - Maximum deviation of the assigned weight (percentage)
+   * @param headers             - Optional headers to included, for example cookies or user-agent
+   */
   def testWeightDistribution(myApp: DeployableApp, nrOfRequests: Int, maxDeviationPct: Int, headers: List[(String, String)] = List.empty): Unit = {
     info(s"Testing weight distribution of [${myApp.name}], doing a $nrOfRequests requests, accepting a deviation of $maxDeviationPct%")
     var identifiedResponses: List[Frontend] = List.empty
-    1 to nrOfRequests foreach { n =>
+    1 to nrOfRequests foreach { n ⇒
       try {
         val page = getApplicationPage(myApp, headers)
         //info(page)
-        myApp.frontends.foreach { frontEnd =>
+        myApp.frontends.foreach { frontEnd ⇒
           if (page.indexOf(frontEnd.textRequiredInResponse) > 1) identifiedResponses = identifiedResponses ++ List(frontEnd)
         }
       } catch {
-        case e: Throwable => alert(s"While checking weight: ${e.getMessage}") /*ignoring for now */
+        case e: Throwable ⇒ alert(s"While checking weight: ${e.getMessage}") /*ignoring for now */
       }
     }
 
@@ -178,14 +180,14 @@ trait DeploymentTest extends VampTest with DeploymentTools with Matchers {
 
     // Calculate totals & percentage for each front end
     val responses: Seq[ResponseCount] = for {
-      frontEnd <- myApp.frontends
-      replies = identifiedResponses.count(response => frontEnd.equals(response))
+      frontEnd ← myApp.frontends
+      replies = identifiedResponses.count(response ⇒ frontEnd.equals(response))
     } yield ResponseCount(frontEnd = frontEnd, replies = replies, percentageOfTraffic = (replies * 100) / nrOfRequests)
 
-    responses.foreach(response => info(s"- ${response.frontEnd.name} got ${response.replies} requests [${response.percentageOfTraffic}%]"))
+    responses.foreach(response ⇒ info(s"- ${response.frontEnd.name} got ${response.replies} requests [${response.percentageOfTraffic}%]"))
 
     // Check if percentages are within the acceptable deviation
-    responses.foreach { response =>
+    responses.foreach { response ⇒
       val deviation = response.frontEnd.weight * maxDeviationPct / 100
       val lower = response.frontEnd.weight - deviation
       val upper = response.frontEnd.weight + deviation
@@ -193,6 +195,5 @@ trait DeploymentTest extends VampTest with DeploymentTools with Matchers {
     }
 
   }
-
 
 }

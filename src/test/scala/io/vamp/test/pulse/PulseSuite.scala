@@ -1,12 +1,12 @@
 package io.vamp.test.pulse
 
 import io.vamp.pulse.client
-import org.scalatest.{BeforeAndAfterAll, BeforeAndAfter, Sequential}
+import org.scalatest.{ BeforeAndAfterAll, BeforeAndAfter, Sequential }
 
 /**
  * Created by lazycoder on 20/03/15.
  */
-class PulseSuite extends Sequential (
+class PulseSuite extends Sequential(
   new AggregationSuite,
   new StorageSuite
 ) with BeforeAndAfterAll {

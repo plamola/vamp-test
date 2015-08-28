@@ -1,12 +1,11 @@
 package io.vamp.test.scenario.sava
 
-import io.vamp.test.model.{DeployableApp, Frontend}
+import io.vamp.test.model.{ DeployableApp, Frontend }
 
 /**
  * Fixures used for the Sava Tutorial test
  */
 object SavaTutorialFixtures {
-
 
   val savaFrontEnd1_0 = Frontend(
     name = "Sava Frontend 1.0",
@@ -16,7 +15,6 @@ object SavaTutorialFixtures {
     name = "Sava Frontend 1.1",
     textRequiredInResponse = "Monolith 1.1")
 
-
   val savaFrontEnd1_2 = Frontend(
     name = "Sava Frontend 1.2",
     textRequiredInResponse = "Frontend & 2 Backends")
@@ -24,7 +22,6 @@ object SavaTutorialFixtures {
   val savaFrontEnd1_3 = Frontend(
     name = "Sava Frontend 1.3",
     textRequiredInResponse = "Frontend & Backend")
-
 
   val mySava1_0 = new DeployableApp(
     name = "Sava 1.0",
@@ -71,7 +68,6 @@ object SavaTutorialFixtures {
     frontends = Seq.empty
   )
 
-
   val mySava1_2_3_merged = new DeployableApp(
     name = "Sava 1.2 merged with 1.3",
     filename = "/io/vamp/test/sava/sava1.3.yml",
@@ -107,6 +103,5 @@ object SavaTutorialFixtures {
     checkUri = "public/",
     frontends = Seq(savaFrontEnd1_3)
   )
-
 
 }
