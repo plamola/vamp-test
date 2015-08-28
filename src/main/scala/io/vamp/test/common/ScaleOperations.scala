@@ -13,7 +13,3 @@ class ScaleOperations(interface: ArtifactInterface[Scale]) extends ArtifactOpera
 
 }
 
-
-
-
-

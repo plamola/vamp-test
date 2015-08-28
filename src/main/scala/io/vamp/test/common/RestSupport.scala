@@ -5,12 +5,11 @@ import io.vamp.common.http.RestClient.Method
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
-import scala.concurrent.{Await, Future}
-import scala.language.{implicitConversions, postfixOps}
-import scala.util.{Failure, Success}
+import scala.concurrent.{ Await, Future }
+import scala.language.{ implicitConversions, postfixOps }
+import scala.util.{ Failure, Success }
 
 trait RestSupport {
-
 
   def timeout: Duration = 30 seconds
 
@@ -23,7 +22,7 @@ trait RestSupport {
   private def sendAndWait(request: String, body: AnyRef, headers: List[(String, String)])(implicit m: Manifest[String]): Option[String] = {
     try {
       val upper = request.toUpperCase
-      val method = Method.values.find(method => upper.startsWith(s"${method.toString} ")).getOrElse(Method.GET)
+      val method = Method.values.find(method ⇒ upper.startsWith(s"${method.toString} ")).getOrElse(Method.GET)
       val url = if (upper.startsWith(s"${method.toString} ")) request.substring(s"${method.toString} ".length) else request
 
       val futureResult: Future[String] = RestClient.http[String](method, url, body, headers)
@@ -31,14 +30,12 @@ trait RestSupport {
       // Block until response ready (nothing else to do anyway)
       Await.result(futureResult, timeout)
       futureResult.value.get match {
-        case Success(result) => Some(result)
-        case Failure(error) => None
+        case Success(result) ⇒ Some(result)
+        case Failure(error)  ⇒ None
       }
-    }
-    catch {
-      case e: Exception => None
+    } catch {
+      case e: Exception ⇒ None
     }
   }
-
 
 }

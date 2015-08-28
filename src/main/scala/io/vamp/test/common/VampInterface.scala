@@ -1,6 +1,5 @@
 package io.vamp.test.common
 
-
 trait VampInterface {
 
   def interfaceDescription: String

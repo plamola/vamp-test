@@ -1,3 +1,6 @@
+import com.typesafe.sbt.SbtScalariform._
+import scalariform.formatter.preferences._
+
 version       := "0.1"
 
 resolvers in ThisBuild += Resolver.url("magnetic-io ivy resolver", url("http://dl.bintray.com/magnetic-io/vamp"))(Resolver.ivyStylePatterns)
@@ -25,12 +28,18 @@ libraryDependencies ++= {
     "org.slf4j" % "slf4j-api" % slf4jVersion,
     "ch.qos.logback" % "logback-classic" % logbackVersion,
     "com.typesafe" % "config" % "1.2.1",
-    "io.vamp" %% "common" % "0.7.10-rc.8b74df9",
-    "io.vamp" %% "core-model" % "0.7.10-rc.8182771",
-    "io.vamp" %% "pulse-server" % "0.7.10-rc.fed8e4e"
+    "io.vamp" %% "common" % "0.7.10",
+    "io.vamp" %% "core-model" % "0.7.10",
+    "io.vamp" %% "pulse-server" % "0.7.10"
   )
 }
 
+scalariformSettings ++ Seq(ScalariformKeys.preferences := ScalariformKeys.preferences.value
+  .setPreference(AlignParameters, true)
+  .setPreference(AlignSingleLineCaseStatements, true)
+  .setPreference(DoubleIndentClassDeclaration, true)
+  .setPreference(PreserveDanglingCloseParenthesis, true)
+  .setPreference(RewriteArrowSymbols, true))
 
 parallelExecution in Test := false
 

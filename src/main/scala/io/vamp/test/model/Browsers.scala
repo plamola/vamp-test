@@ -1,9 +1,10 @@
 package io.vamp.test.model
 
-/** Browsers used for testing
-  * Currently nothing more than a name and a user agent string
-  *
-  */
+/**
+ * Browsers used for testing
+ * Currently nothing more than a name and a user agent string
+ *
+ */
 object Browsers {
   val Chrome = BrowserDefinition(
     name = "Chrome",

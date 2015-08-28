@@ -7,7 +7,6 @@ import io.vamp.test.common.ConfigProvider
 import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContext.Implicits.global
 
-
 trait LocalPulseClientProvider extends PulseClientProvider with ConfigProvider with ExecutionContextProvider {
   override implicit def executionContext: ExecutionContext = {
     global

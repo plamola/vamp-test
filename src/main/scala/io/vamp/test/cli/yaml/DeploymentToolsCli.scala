@@ -1,11 +1,10 @@
 package io.vamp.test.cli.yaml
 
-import io.vamp.core.model.artifact.{Blueprint, Deployment}
+import io.vamp.core.model.artifact.{ Blueprint, Deployment }
 import io.vamp.core.model.reader.DeploymentReader
-import io.vamp.test.common.{DeploymentTools, YamlUtils}
+import io.vamp.test.common.{ DeploymentTools, YamlUtils }
 
 import scala.language.postfixOps
-
 
 trait DeploymentToolsCli extends DeploymentTools with CliYamlInterface with YamlUtils {
 
@@ -18,45 +17,44 @@ trait DeploymentToolsCli extends DeploymentTools with CliYamlInterface with Yaml
         )
       ))
     } catch {
-      case e: RuntimeException => None
+      case e: RuntimeException ⇒ None
     }
   }
 
   override def deploy(blueprint: Blueprint): Option[Deployment] =
     try {
-      withTemporaryFile(artifactToYaml(blueprint)) { tmpFile =>
+      withTemporaryFile(artifactToYaml(blueprint)) { tmpFile ⇒
         Some(DeploymentReader.read(execCommand(
           command = "deploy",
           arguments = Some(s" --file ${tmpFile.getAbsoluteFile}"))
         ))
       }
     } catch {
-      case e: RuntimeException => None
+      case e: RuntimeException ⇒ None
     }
 
   override def deploymentUpdate(blueprint: Blueprint, deploymentName: String): Option[Deployment] =
     try {
-      withTemporaryFile(artifactToYaml(blueprint)) { tmpFile =>
+      withTemporaryFile(artifactToYaml(blueprint)) { tmpFile ⇒
         Some(DeploymentReader.read(execCommand(
           command = "deploy",
           arguments = Some(s"--deployment $deploymentName --file ${tmpFile.getAbsoluteFile}"))
         ))
       }
     } catch {
-      case e: RuntimeException => None
+      case e: RuntimeException ⇒ None
     }
 
   override def undeploy(blueprint: Blueprint, deploymentName: String): Option[Deployment] =
-  //TODO this does not support partial undeploys
+    //TODO this does not support partial undeploys
     try {
       Some(DeploymentReader.read(execCommand(
         command = "undeploy",
         arguments = Some(s"$deploymentName"))
       ))
     } catch {
-      case e: RuntimeException => None
+      case e: RuntimeException ⇒ None
     }
-
 
   override def getAllDeployments: List[Deployment] =
     try {
@@ -69,25 +67,14 @@ trait DeploymentToolsCli extends DeploymentTools with CliYamlInterface with Yaml
         List.empty
       } else {
         val deployments = for {
-          line <- lines.tail
+          line ← lines.tail
           id = line.split(" ").head
         } yield getDeploymentbyName(id)
         deployments.flatten.toList
       }
     } catch {
-      case e: RuntimeException => List.empty
+      case e: RuntimeException ⇒ List.empty
     }
 
-
 }
-
-
-
-
-
-
-
-
-
-
 

@@ -5,7 +5,6 @@ import io.vamp.core.model.reader.BlueprintReader
 
 import scala.language.reflectiveCalls
 
-
 class BlueprintOperations(interface: ArtifactInterface[Blueprint]) extends ArtifactOperations[Blueprint] {
 
   override val artifactInterface: ArtifactInterface[Blueprint] = interface
@@ -15,8 +14,4 @@ class BlueprintOperations(interface: ArtifactInterface[Blueprint]) extends Artif
   def responseConverter(result: String) = BlueprintReader.read(result)
 
 }
-
-
-
-
 

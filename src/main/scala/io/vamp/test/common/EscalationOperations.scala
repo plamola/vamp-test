@@ -13,7 +13,3 @@ class EscalationOperations(interface: ArtifactInterface[Escalation]) extends Art
 
 }
 
-
-
-
-

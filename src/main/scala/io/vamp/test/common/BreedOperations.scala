@@ -13,7 +13,3 @@ class BreedOperations(interface: ArtifactInterface[Breed]) extends ArtifactOpera
 
 }
 
-
-
-
-

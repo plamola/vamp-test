@@ -12,7 +12,3 @@ class SlaOperations(interface: ArtifactInterface[Sla]) extends ArtifactOperation
   def responseConverter(result: String) = SlaReader.read(result)
 }
 
-
-
-
-

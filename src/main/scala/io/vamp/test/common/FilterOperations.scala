@@ -13,7 +13,3 @@ class FilterOperations(interface: ArtifactInterface[Filter]) extends ArtifactOpe
 
 }
 
-
-
-
-

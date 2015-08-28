@@ -6,7 +6,3 @@ trait JsonFormatsProvider {
   implicit val formats: Formats
 }
 
-
-
-
-

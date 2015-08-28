@@ -1,7 +1,6 @@
 package io.vamp.test.router
 
-import io.vamp.test.common.{ConfigProvider, RestSupport, VampInterface}
-
+import io.vamp.test.common.{ ConfigProvider, RestSupport, VampInterface }
 
 trait RouterInterface extends VampInterface with ConfigProvider with RestSupport {
 
@@ -12,8 +11,8 @@ trait RouterInterface extends VampInterface with ConfigProvider with RestSupport
   def interfaceDescription: String = "Router"
 
   def readVersionFromInterface: String = sendAndWaitJson(request = s"GET $url/v1/info", None) match {
-    case Some(json) => extractTagContent(json, "\"Version\":\"", "\"")
-    case None => "No response from info request"
+    case Some(json) ⇒ extractTagContent(json, "\"Version\":\"", "\"")
+    case None       ⇒ "No response from info request"
   }
 
 }

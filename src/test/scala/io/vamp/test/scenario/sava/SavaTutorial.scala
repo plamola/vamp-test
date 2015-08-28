@@ -1,7 +1,6 @@
 package io.vamp.test.scenario.sava
 
-
-import io.vamp.test.common.{DeploymentTest, VampInterface}
+import io.vamp.test.common.{ DeploymentTest, VampInterface }
 import io.vamp.test.core.CleanupCoreDb
 import io.vamp.test.model.Browsers
 
@@ -49,7 +48,6 @@ trait SavaTutorial extends DeploymentTest with VampInterface with CleanupCoreDb 
       undeployAndValidate(SavaTutorialFixtures.mySava1_2, deploymentNameSava12)
     }
 
-
     // STEP 4
     scenario("4. Merging a changed topology") {
       val deploymentNameSava13 = performDeployment(SavaTutorialFixtures.mySava1_2)
@@ -80,6 +78,5 @@ trait SavaTutorial extends DeploymentTest with VampInterface with CleanupCoreDb 
     }
 
   }
-
 
 }

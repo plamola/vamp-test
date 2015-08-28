@@ -6,9 +6,7 @@ import org.scalatest._
 
 import scala.language.postfixOps
 
-
 class CliGenericSuite extends FlatSpec with CliYamlInterface with Matchers with FileAccess with Retries {
-
 
   // version
   it should "return the correct version number" taggedAs CleanableTest in {
@@ -25,7 +23,7 @@ class CliGenericSuite extends FlatSpec with CliYamlInterface with Matchers with 
   // help
   it should "be able to return a help message" taggedAs CleanableTest in {
     val res = execCommand("help")
-    res.startsWith("Usage: vamp COMMAND [args..]") should be (true)
+    res.startsWith("Usage: vamp COMMAND [args..]") should be(true)
   }
 
 }

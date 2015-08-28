@@ -1,7 +1,6 @@
 package io.vamp.test.pulse
 
-import io.vamp.test.common.{ConfigProvider, RestSupport, VampInterface}
-
+import io.vamp.test.common.{ ConfigProvider, RestSupport, VampInterface }
 
 trait PulseInterface extends VampInterface with ConfigProvider with RestSupport {
 
@@ -12,10 +11,9 @@ trait PulseInterface extends VampInterface with ConfigProvider with RestSupport 
   def interfaceDescription: String = "Pulse API"
 
   def readVersionFromInterface: String = sendAndWaitYaml(request = s"GET $url/api/v1/info", None) match {
-    case Some(yaml) => extractTagContent(yaml, "\nversion: ", "\n")
-    case None => "No version detected"
+    case Some(yaml) ⇒ extractTagContent(yaml, "\nversion: ", "\n")
+    case None       ⇒ "No version detected"
   }
-
 
 }
 

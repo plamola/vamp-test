@@ -1,8 +1,8 @@
 package io.vamp.test.cli.yaml
 
-import java.io.{File, PrintWriter}
+import java.io.{ File, PrintWriter }
 
-import io.vamp.test.common.{ConfigProvider, VampInterface, YamlUtils}
+import io.vamp.test.common.{ ConfigProvider, VampInterface, YamlUtils }
 
 import scala.language.postfixOps
 import scala.sys.process._
@@ -21,17 +21,15 @@ trait CliYamlInterface extends VampInterface with ConfigProvider with YamlUtils 
   private def stripAnsi(s: String): String = s.replaceAll("\\e\\[[\\d;]*[^\\d;]", "")
 
   def execCommand(command: String, arguments: Option[String] = None): String = stripAnsi(arguments match {
-    case None => s"vamp $command --host $url" !!
-    case Some(args) => s"vamp $command --host $url $args" !!
+    case None       ⇒ s"vamp $command --host $url" !!
+    case Some(args) ⇒ s"vamp $command --host $url $args" !!
   })
 
-
-  def withTemporaryFile[T](content: String)(action: File => T): T = {
+  def withTemporaryFile[T](content: String)(action: File ⇒ T): T = {
     val file = dumpToFile(content)
     try {
       action(file)
-    }
-    finally {
+    } finally {
       file.delete()
     }
   }
