@@ -7,8 +7,13 @@ sudo: true
 services:
   - docker
 before_install:
+  - docker version
   - docker run --net=host -d magneticio/vamp-pulse:latest
   - docker run --net=host -d magneticio/vamp-router:latest
   - docker run --net=host -d magneticio/vamp-core:latest
+  - echo "deb https://dl.bintray.com/magnetic-io/upstart trusty main" | sudo tee -a /etc/apt/sources.list
+  - curl https://bintray.com/user/downloadSubjectPublicKey?username=bintray | sudo apt-key add -
+  - sudo apt-get update
+  - sudo apt-get install -y vamp-cli
 script:
   - sbt test
