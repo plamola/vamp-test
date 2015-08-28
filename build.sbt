@@ -1,4 +1,3 @@
-import com.typesafe.sbt.SbtScalariform._
 import scalariform.formatter.preferences._
 
 version       := "0.1"
@@ -41,6 +40,13 @@ scalariformSettings ++ Seq(ScalariformKeys.preferences := ScalariformKeys.prefer
   .setPreference(PreserveDanglingCloseParenthesis, true)
   .setPreference(RewriteArrowSymbols, true))
 
+scalariformSettings ++ Seq(ScalariformKeys.preferences := ScalariformKeys.preferences.value
+  .setPreference(AlignParameters, true)
+  .setPreference(AlignSingleLineCaseStatements, true)
+  .setPreference(DoubleIndentClassDeclaration, true)
+  .setPreference(PreserveDanglingCloseParenthesis, true)
+  .setPreference(RewriteArrowSymbols, true))
+
 parallelExecution in Test := false
 
 scalaVersion  := "2.11.7"
@@ -51,6 +57,5 @@ javacOptions ++= Seq("-encoding", "UTF-8")
 
 scalacOptions in ThisBuild ++= Seq(Opts.compile.deprecation, Opts.compile.unchecked) ++
   Seq("-Ywarn-unused-import", "-Ywarn-unused", "-Xlint", "-feature")
-
 
 
