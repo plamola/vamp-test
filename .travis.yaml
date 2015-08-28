@@ -1,0 +1,14 @@
+language: scala
+scala:
+- 2.11.5
+jdk:
+- oraclejdk8
+sudo: true
+services:
+  - docker
+before_install:
+  - docker run --net=host -d magneticio/vamp-pulse:latest
+  - docker run --net=host -d magneticio/vamp-router:latest
+  - docker run --net=host -d magneticio/vamp-core:latest
+script:
+  - sbt test
